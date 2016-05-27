@@ -1,4 +1,4 @@
-package littlemylyn;
+package Entity;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,28 +11,28 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 /*
- * Entity£ºTask
- * Description£º
+ * Entityï¿½ï¿½Task
+ * Descriptionï¿½ï¿½
  * 
- * 0¡¢Overview: 
+ * 0ï¿½ï¿½Overview: 
  * 		a.we can operate all tasks by a public static ArrayList of tasks
  * 			(most of time we use task's index)
  * 		b.we can operate one task by getTask() and the task's unique methods
  * 
- * 1¡¢Property£ºevery task has name, category, state,relatedCode and index.
+ * 1ï¿½ï¿½Propertyï¿½ï¿½every task has name, category, state,relatedCode and index.
  * (for us to pick one of the tasks easily)
  * 
- * 2¡¢Initialization£ºwe use text I\O to save and load the information of the tasks.
+ * 2ï¿½ï¿½Initializationï¿½ï¿½we use text I\O to save and load the information of the tasks.
  * (we separate the tasks with "#TASK" and "END#")
  * 
- * 3¡¢Methods about one task: 
+ * 3ï¿½ï¿½Methods about one task: 
  *		a.changeState(int):we can change the state of a task.
  *		b.getSize():we can get the numbers of a task's related code.
  *		c.addCode(String):we can add the new member to the list of related code in a task.
  *		d.deactivatedOtherTask:(private)we only use it when the state's changing target
  *			 is STATE_ACTIVATED so that we can make sure only one task is activated.
  *
- * 4¡¢Methods about all tasks:
+ * 4ï¿½ï¿½Methods about all tasks:
  * 		a.newTask(String,int,int):we can init a task and save it into the allTask list.
  * 		b.getTask(int):we can get a task by its index.
  * 		c.deleteTask(int):we can remove a task by its index.
@@ -158,5 +158,8 @@ public class Task {
 	}
 	public static void deleteTask(int index){
 		allTask.remove(index);
+	}
+	public String getName() {
+		return this.name;
 	}
 }

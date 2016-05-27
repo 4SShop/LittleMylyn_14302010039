@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="New Tasks Set"
+            visible="true"
+            id="LittleMylyn_14302010039.actionSet">
+         
+         <action
+               label="New Tasks(&amp;S)"
+               icon="icons/sample.gif"
+               class="littlemylyn_14302010039.actions.NewTaskAction"
+               tooltip="New a task"
+               menubarPath="file/new.ext"
+               toolbarPath="new.ext"
+               id="littlemylyn_14302010039.actions.NewTaskAction">
+         </action>
+      </actionSet>
+   </extension>
+   <extension
+   		point = "org.eclipse.ui.views">
+   		<category
+   			id="littlemylyn_14302010039.navigator.category"
+   			name="Tasks">
+   		</category>
+   		<view
+   			allowMultiple="false"
+   			category="littlemylyn_14302010039.navigator.category"
+   			class="littlemylyn_14302010039.actions.DisplayTasksAction"
+   			icon="icons/sample.gif"
+   			id="littlemylyn_14302010039.navigator.taskView"
+   			name="My Tasks View">
+   		</view>
+   </extension>
+   
+   <extension
+   		point = "org.eclipse.ui.navigator.viewer">
+   		<viewer
+   			viewerId="littlemylyn_14302010039.navigator.taskView">
+   		</viewer>
+   		<viewActionBinding
+   			viewerId="littlemylyn_14302010039.navigator.taskView">
+   			<includes>
+   				<actionExtension
+   					pattern="org.eclipse.ui.navigator.resources.*">
+   				</actionExtension>
+   			</includes>
+   		</viewActionBinding>
+   		<viewContentBinding
+   			viewerId="littlemylyn_14302010039.navigator.taskView">
+   			<includes>
+   				<actionExtension
+   					pattern="org.eclipse.ui.navigator.resourceContent">
+   				</actionExtension>
+   				<actionExtension
+   					pattern="org.eclipse.ui.navigator.resources.*">
+   				</actionExtension>
+   			</includes>
+   		</viewContentBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+   </extension>
+
+</plugin>
