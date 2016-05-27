@@ -2,10 +2,10 @@ package View;
 
 import java.util.ArrayList;
 
-import Entity.Task;
-
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+
+import littlemylyn_14302010039.entity.Task;
 
 public class MyContentProvider implements ITreeContentProvider{
 

@@ -4,7 +4,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
-import Entity.Task;
+import littlemylyn_14302010039.entity.Task;
 
 public class MyLableProvider implements ILabelProvider {
 
