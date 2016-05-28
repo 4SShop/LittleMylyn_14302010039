@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
+import littlemylyn_14302010039.biz.TaskBiz;
+import littlemylyn_14302010039.biz.impl.TaskBizImpl;
 import littlemylyn_14302010039.entity.Task;
+import littlemylyn_14302010039.entity.TreeNode;
 
 public class MyContentProvider implements ITreeContentProvider{
 
@@ -24,30 +27,30 @@ public class MyContentProvider implements ITreeContentProvider{
 	@Override
 	public Object[] getChildren(Object arg0) {
 		// TODO 自动生成的方法存根
-		return null;
+		return ((TreeNode)arg0).getChildren().toArray();
 	}
 
 	@Override
 	public Object[] getElements(Object arg0) {
 		// TODO 自动生成的方法存根
-		ArrayList<Task> tasks = getAllTasks();
-		Task[] obj = (Task[])tasks.toArray();
-		return obj;
+		return ((TreeNode)arg0).getChildren().toArray();
 	}
 
 	@Override
 	public Object getParent(Object arg0) {
 		// TODO 自动生成的方法存根
-		return null;
+		return ((TreeNode)arg0).getParent();
 	}
 
 	@Override
 	public boolean hasChildren(Object arg0) {
 		// TODO 自动生成的方法存根
-		return true;
+		ArrayList<TreeNode> children = ((TreeNode)arg0).getChildren();
+		return (children == null) ? false : (children.size() > 0);
 	}
 	
 	private ArrayList<Task> getAllTasks() {
+		TaskBiz taskbiz = new TaskBizImpl();
 		return null;
 	}
 }

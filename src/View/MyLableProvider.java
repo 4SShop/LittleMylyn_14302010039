@@ -5,6 +5,7 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
 import littlemylyn_14302010039.entity.Task;
+import littlemylyn_14302010039.entity.TreeNode;
 
 public class MyLableProvider implements ILabelProvider {
 
@@ -41,10 +42,15 @@ public class MyLableProvider implements ILabelProvider {
 	@Override
 	public String getText(Object arg0) {
 		// TODO 自动生成的方法存根
-		if(arg0 instanceof Task)
-			return ((Task) arg0).getName();
-		else 
-			return null;
+		String text = "";
+		TreeNode node = (TreeNode) arg0;
+		if(node.getParent() == null) {
+			text = "root";
+		}
+		else {
+			text = ((TreeNode) arg0).getName();
+		}
+		return text;
 	}
 
 }

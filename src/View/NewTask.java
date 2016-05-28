@@ -2,6 +2,9 @@ package View;
 
 import java.util.ArrayList;
 
+import littlemylyn_14302010039.biz.TaskBiz;
+import littlemylyn_14302010039.biz.impl.TaskBizImpl;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -35,7 +38,6 @@ public class NewTask extends Wizard {
 		String name = page.getTaskName();
 		String type = page.getType();
 		String state = page.getState();
-		
 		return true;
 	}
 	//add page in the wizard

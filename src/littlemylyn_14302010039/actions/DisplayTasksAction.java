@@ -1,5 +1,7 @@
 package littlemylyn_14302010039.actions;
 
+import littlemylyn_14302010039.entity.TreeNode;
+
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.*;
 import org.eclipse.jface.viewers.*;
@@ -38,6 +40,7 @@ public class DisplayTasksAction extends ViewPart {
 	public static final String ID = "littlemylyn_14302010039.DisplayTasksAction";
 
 	private TreeViewer viewer;
+	private littlemylyn_14302010039.entity.TreeNode root;
 	private Action action1;
 	private Action action2;
 	private Action doubleClickAction;
@@ -64,10 +67,19 @@ public class DisplayTasksAction extends ViewPart {
 	 * to create the viewer and initialize it.
 	 */
 	public void createPartControl(Composite parent) {
+		root = new TreeNode();
+		TreeNode c1 = new TreeNode("1", root, null);
+		TreeNode c2 = new TreeNode("2", root, null);
+		root.addChild(c1);
+		root.addChild(c2);
+		TreeNode c3 = new TreeNode("3", c1, null);
+		TreeNode c4 = new TreeNode("4", c1, null);
+		c1.addChild(c3);
+		c1.addChild(c4);
 		viewer = new TreeViewer(parent);
 		viewer.setContentProvider(new MyContentProvider());
 		viewer.setLabelProvider(new MyLableProvider());
-		viewer.setInput(getViewSite());
+		viewer.setInput(root);
 
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "view.viewer");
