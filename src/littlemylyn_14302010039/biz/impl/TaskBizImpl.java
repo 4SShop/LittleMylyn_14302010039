@@ -8,7 +8,17 @@ import littlemylyn_14302010039.biz.TaskBiz;
 import littlemylyn_14302010039.entity.Task;
 
 public class TaskBizImpl implements TaskBiz{
-
+	public Task newTask(String n,int c,int s,ArrayList<Task> allTask){
+		Task t=new Task(n,c,s,allTask);
+		allTask.add(t);
+		return t;
+	}
+	public Task getTask(int index,ArrayList<Task> allTask){
+		return allTask.get(index);
+	}
+	public void deleteTask(int index,ArrayList<Task> allTask){
+		allTask.remove(index);
+	}
 	public void changeState(Task t,int target,ArrayList<Task> allTask){
 		if(target==Task.STATE_ACTIVATED){//if we want a task to be activated, the others should be deactivated
 			deactivateOtherTask(t,allTask);
