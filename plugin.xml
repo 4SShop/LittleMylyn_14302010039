@@ -64,5 +64,63 @@
    <extension
          point="org.eclipse.ui.navigator.navigatorContent">
    </extension>
-
+   
+   <extension 
+      point="org.eclipse.ui.popupMenus"> 
+	   <objectContribution 
+	         adaptable="false"
+	         id="littlemylyn_14302010039.views.popupMenu"
+	         objectClass="littlemylyn_14302010039.entity.TreeNode"> 
+	   		<menu 
+	     		label="change type"
+	     		id="type">
+	     	</menu>
+	     	<menu 
+	     		label="change state"
+	     		id="state">
+	     	</menu>
+	      	<action 
+	            class="littlemylyn_14302010039.actions.ChangeTypeAction"
+	            enablesFor="+"
+	            id="littlemylyn_14302010039.actions.ChangeTypeAction.debug"
+	            label="debug"
+	            menubarPath="type/additions"> 
+	      	</action> 
+	      	<action 
+	            class="littlemylyn_14302010039.actions.ChangeTypeActionn"
+	            enablesFor="+"
+	            id="littlemylyn_14302010039.actions.ChangeTypeAction.feature"
+	            label="new feature"
+	            menubarPath="type/additions"> 
+	      	</action> 
+	      	<action 
+	            class="littlemylyn_14302010039.actions.ChangeTypeActionn"
+	            enablesFor="+"
+	            id="littlemylyn_14302010039.actions.ChangeTypeAction.refactor"
+	            label="refactor"
+	            menubarPath="type/additions"> 
+	      	</action> 
+	      	<action 
+	            class="littlemylyn_14302010039.actions.ChangeStateAction"
+	            enablesFor="+"
+	            id="littlemylyn_14302010039.actions.ChangeStateAction.New"
+	            label="New"
+	            menubarPath="state/additions"> 
+	      	</action> 
+	      	<action 
+	            class="littlemylyn_14302010039.actions.ChangeStateAction"
+	            enablesFor="+"
+	            id="littlemylyn_14302010039.actions.ChangeStateAction.Activated"
+	            label="Activated"
+	            menubarPath="state/additions"> 
+	      	</action> 
+	      	<action 
+	            class="littlemylyn_14302010039.actions.ChangeStateAction"
+	            enablesFor="+"
+	            id="littlemylyn_14302010039.actions.ChangeStateAction.Finished"
+	            label="Finished"
+	            menubarPath="state/additions"> 
+	      	</action> 
+	   </objectContribution> 
+	 </extension> 
 </plugin>

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: LittleMylyn
-Bundle-SymbolicName: LittleMylyn;singleton:=true
+Bundle-SymbolicName: LittleMylyn_14302010039;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: littlemylyn_14302010039.Activator
 Require-Bundle: org.eclipse.ui,
@@ -10,6 +10,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.navigator;bundle-version="3.5.401",
  org.eclipse.ui.navigator.resources;bundle-version="3.4.700",
- org.eclipse.ui.views;bundle-version="3.7.0"
+ org.eclipse.ui.views;bundle-version="3.7.0",
+ org.eclipse.core.resources;bundle-version="3.9.1",
+ org.eclipse.ui.ide;bundle-version="3.10.2"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

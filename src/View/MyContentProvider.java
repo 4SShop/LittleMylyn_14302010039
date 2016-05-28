@@ -4,10 +4,6 @@ import java.util.ArrayList;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-
-import littlemylyn_14302010039.biz.TaskBiz;
-import littlemylyn_14302010039.biz.impl.TaskBizImpl;
-import littlemylyn_14302010039.entity.Task;
 import littlemylyn_14302010039.entity.TreeNode;
 
 public class MyContentProvider implements ITreeContentProvider{
@@ -47,10 +43,5 @@ public class MyContentProvider implements ITreeContentProvider{
 		// TODO 自动生成的方法存根
 		ArrayList<TreeNode> children = ((TreeNode)arg0).getChildren();
 		return (children == null) ? false : (children.size() > 0);
-	}
-	
-	private ArrayList<Task> getAllTasks() {
-		TaskBiz taskbiz = new TaskBizImpl();
-		return null;
 	}
 }

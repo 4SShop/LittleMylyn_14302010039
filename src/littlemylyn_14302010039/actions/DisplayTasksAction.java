@@ -1,12 +1,17 @@
 package littlemylyn_14302010039.actions;
 
+
 import littlemylyn_14302010039.entity.TreeNode;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.*;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.jface.action.*;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.*;
 import org.eclipse.swt.widgets.Menu;
 
@@ -41,8 +46,6 @@ public class DisplayTasksAction extends ViewPart {
 
 	private TreeViewer viewer;
 	private littlemylyn_14302010039.entity.TreeNode root;
-	private Action action1;
-	private Action action2;
 	private Action doubleClickAction;
 
 	/*
@@ -109,48 +112,31 @@ public class DisplayTasksAction extends ViewPart {
 	}
 
 	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(action1);
-		manager.add(new Separator());
-		manager.add(action2);
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
-		manager.add(action1);
-		manager.add(action2);
-		// Other plug-ins can contribute there actions here
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+		
 	}
 	
 	private void fillLocalToolBar(IToolBarManager manager) {
-		manager.add(action1);
-		manager.add(action2);
+		
 	}
 
 	private void makeActions() {
-		action1 = new Action() {
-			public void run() {
-				showMessage("Action 1 executed");
-			}
-		};
-		action1.setText("Action 1");
-		action1.setToolTipText("Action 1 tooltip");
-		action1.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-			getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
-		
-		action2 = new Action() {
-			public void run() {
-				showMessage("Action 2 executed");
-			}
-		};
-		action2.setText("Action 2");
-		action2.setToolTipText("Action 2 tooltip");
-		action2.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(ISharedImages.IMG_OBJS_INFO_TSK));
 		doubleClickAction = new Action() {
 			public void run() {
 				ISelection selection = viewer.getSelection();
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
-				showMessage("Double-click detected on "+obj.toString());
+				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject("1");
+				System.out.println("The full path:" + project.getFullPath());
+				IFile file = project.getFile(new Path("/3"));
+				try {
+					IDE.openEditor(page, file);
+				} catch (PartInitException e) {
+					// TODO 自动生成的 catch 块
+					System.out.println("wrong");
+				}
 			}
 		};
 	}
@@ -161,12 +147,6 @@ public class DisplayTasksAction extends ViewPart {
 				doubleClickAction.run();
 			}
 		});
-	}
-	private void showMessage(String message) {
-		MessageDialog.openInformation(
-			viewer.getControl().getShell(),
-			"样本视图",
-			message);
 	}
 
 	/**
