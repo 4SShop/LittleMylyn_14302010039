@@ -1,4 +1,3 @@
-
 package littlemylyn_14302010039.biz;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ public interface TaskBiz {
 	//delete a target task
 	public void deleteTask(String name, ArrayList<Task> allTask);
 	//change task to a appointed type
-	public void changeType(String name, String type);
+	public void changeType(String name, String type, ArrayList<Task> allTask);
 	//change task to a appointed state
 	public void changeState(String name, String state, ArrayList<Task> allTask);
 	//add related file to the task
