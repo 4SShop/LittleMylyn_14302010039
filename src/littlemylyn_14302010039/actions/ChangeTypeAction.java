@@ -10,7 +10,7 @@ public class ChangeTypeAction implements IObjectActionDelegate{
 	@Override
 	public void run(IAction arg0) {
 		// TODO 自动生成的方法存根
-		
+		System.out.println("I was clicked");
 	}
 
 	@Override

@@ -1,6 +1,9 @@
 package littlemylyn_14302010039.actions;
 
 
+import java.util.ArrayList;
+
+import littlemylyn_14302010039.entity.Task;
 import littlemylyn_14302010039.entity.TreeNode;
 
 import org.eclipse.swt.widgets.Composite;
@@ -43,9 +46,9 @@ public class DisplayTasksAction extends ViewPart {
 	 * The ID of the view as specified by the extension.
 	 */
 	public static final String ID = "littlemylyn_14302010039.DisplayTasksAction";
-
-	private TreeViewer viewer;
-	private littlemylyn_14302010039.entity.TreeNode root;
+	public static ArrayList<Task> allTask;
+	public static littlemylyn_14302010039.entity.TreeNode root;
+	private static TreeViewer viewer;
 	private Action doubleClickAction;
 
 	/*
@@ -127,16 +130,20 @@ public class DisplayTasksAction extends ViewPart {
 			public void run() {
 				ISelection selection = viewer.getSelection();
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
-				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject("1");
-				System.out.println("The full path:" + project.getFullPath());
-				IFile file = project.getFile(new Path("/3"));
-				try {
-					IDE.openEditor(page, file);
-				} catch (PartInitException e) {
-					// TODO 自动生成的 catch 块
-					System.out.println("wrong");
+				TreeNode node = (TreeNode)obj;
+				if(node.getFile() != null) {
+//					IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject("1");
+//					System.out.println("The full path:" + project.getFullPath());
+					IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+					IFile file = node.getFile();
+					try {
+						IDE.openEditor(page, file);
+					} catch (PartInitException e) {
+						// TODO 自动生成的 catch 块
+						System.out.println("wrong");
+					}
 				}
+				
 			}
 		};
 	}
@@ -154,5 +161,9 @@ public class DisplayTasksAction extends ViewPart {
 	 */
 	public void setFocus() {
 		viewer.getControl().setFocus();
+	}
+	
+	public static TreeViewer getTreeViewer() {
+		return viewer;
 	}
 }

@@ -2,6 +2,7 @@ package View;
 
 import java.util.ArrayList;
 
+import littlemylyn_14302010039.actions.DisplayTasksAction;
 import littlemylyn_14302010039.biz.TaskBiz;
 import littlemylyn_14302010039.biz.impl.TaskBizImpl;
 
@@ -38,6 +39,14 @@ public class NewTask extends Wizard {
 		String name = page.getTaskName();
 		String type = page.getType();
 		String state = page.getState();
+		TaskBiz taskbiz = new TaskBizImpl();
+		
+		//new a task
+		DisplayTasksAction.allTask.add(taskbiz.newTask(name, type, state));
+		//add a tree
+		
+		//refresh the viewPart
+		DisplayTasksAction.getTreeViewer().setInput(DisplayTasksAction.root);
 		return true;
 	}
 	//add page in the wizard
@@ -56,7 +65,7 @@ class TaskPage extends WizardPage {
 	TaskPage(ISelection selection) {
 		super(NewTask.page1, "New a task：", ImageDescriptor.createFromFile(TaskPage.class, "q.gif"));
 		this.setMessage("Create a new task for your project!");
-		this.selection = selection;
+		this.setSelection(selection);
 		setPageComplete(false);
 	}
 
@@ -132,6 +141,20 @@ class TaskPage extends WizardPage {
 	}
 	public String getTaskName() {
 		return name.getText();
+	}
+
+	/**
+	 * @return selection
+	 */
+	public ISelection getSelection() {
+		return selection;
+	}
+
+	/**
+	 * @param selection 要设置的 selection
+	 */
+	public void setSelection(ISelection selection) {
+		this.selection = selection;
 	} 
 
 }
