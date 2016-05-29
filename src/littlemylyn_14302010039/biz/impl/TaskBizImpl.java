@@ -2,46 +2,46 @@ package littlemylyn_14302010039.biz.impl;
 
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
+import org.eclipse.core.resources.IFile;
 import littlemylyn_14302010039.biz.TaskBiz;
 import littlemylyn_14302010039.entity.Task;
 
 public class TaskBizImpl implements TaskBiz{
-	public Task newTask(String n,int c,int s,ArrayList<Task> allTask){
-		Task t=new Task(n,c,s,allTask);
-		allTask.add(t);
-		return t;
+
+	@Override
+	public Task newTask(String name, String type, String state) {
+		// TODO 自动生成的方法存根
+		return null;
 	}
-	public Task getTask(int index,ArrayList<Task> allTask){
-		return allTask.get(index);
+
+	@Override
+	public Task getTask(String name, ArrayList<Task> allTask) {
+		// TODO 自动生成的方法存根
+		return null;
 	}
-	public void deleteTask(int index,ArrayList<Task> allTask){
-		allTask.remove(index);
+
+	@Override
+	public void deleteTask(String name, ArrayList<Task> allTask) {
+		// TODO 自动生成的方法存根
+		
 	}
-	public void changeState(Task t,int target,ArrayList<Task> allTask){
-		if(target==Task.STATE_ACTIVATED){//if we want a task to be activated, the others should be deactivated
-			deactivateOtherTask(t,allTask);
-		}
-		if(target==Task.STATE_NEW){//no task can be change into new state
-			JOptionPane.showMessageDialog(null, "Can't change any task's state into new state!");
-		}else{
-			t.state=target;
-		}
+
+	@Override
+	public void changeType(String name, String type) {
+		// TODO 自动生成的方法存根
+		
 	}
-	public int getSize(Task t){
-		return t.relatedCode.size();
+
+	@Override
+	public void changeState(String name, String state, ArrayList<Task> allTask) {
+		// TODO 自动生成的方法存根
+		
 	}
-	public void addCode(String s,Task t){
-		t.relatedCode.add(s);
-	}
-	public void deactivateOtherTask(Task t,ArrayList<Task> allTask){
-		int act=t.index;
-		for(int i=0;i<allTask.size();i++){
-			if(allTask.get(i).index!=act&&allTask.get(i).state==Task.STATE_ACTIVATED){
-				changeState(allTask.get(i),Task.STATE_FINISHED,allTask);
-			}	
-		}
+
+	@Override
+	public void addRelatedFile(Task task, IFile file) {
+		// TODO 自动生成的方法存根
+		
 	}
 
 }

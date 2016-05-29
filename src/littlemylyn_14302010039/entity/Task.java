@@ -1,35 +1,55 @@
 package littlemylyn_14302010039.entity;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
+import org.eclipse.core.resources.IFile;
 
 public class Task {
-	public static final int TASK_DEBUG=0;
-	public static final int TASK_NEWFEATURE=1;
-	public static final int TASK_REFACTOR=2;
-	public static final int STATE_NEW=0;
-	public static final int STATE_ACTIVATED=1;
-	public static final int STATE_FINISHED=2;
-	public int category;
-	public int state;
-	public String name;
-	public int index;
-	public ArrayList<String> relatedCode=new ArrayList<String>();
-	public Task(String n,int c,int s,ArrayList<Task> allTask) {
-		name=n;
-		category=c;
-		state=s;
-		index=allTask.size();
+	private String type;
+	private String state;
+	private String name;
+	private ArrayList<IFile> relatedFiles = new ArrayList<>();
+	public Task(String name, String type, String state) {
+		this.name = name;
+		this.setType(type);
+		this.setState(state);
 	}
 	public String getName() {
 		return this.name;
+	}
+	/**
+	 * @return type
+	 */
+	public String getType() {
+		return type;
+	}
+	/**
+	 * @param type 要设置的 type
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+	/**
+	 * @return state
+	 */
+	public String getState() {
+		return state;
+	}
+	/**
+	 * @param state 要设置的 state
+	 */
+	public void setState(String state) {
+		this.state = state;
+	}
+	/**
+	 * @return hashMap
+	 */
+	public void addFile(IFile file) {
+		relatedFiles.add(file);
+	}
+	
+	public void deleteFile(IFile file) {
+		relatedFiles.remove(file);
 	}
 }
