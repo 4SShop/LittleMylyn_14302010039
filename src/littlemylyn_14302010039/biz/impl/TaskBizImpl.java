@@ -18,9 +18,9 @@ public class TaskBizImpl implements TaskBiz{
 	@Override
 	public Task getTask(String name, ArrayList<Task> allTask) {
 		// TODO 自动生成的方法存根
-		for(int i=0;i<allTask.size();i++){
-			if(allTask.get(i).getName().equals(name)){
-				return allTask.get(i);
+		for(Task task: allTask){
+			if(task.getName().equals(name)){
+				return task;
 			}
 		}
 		return null;
@@ -29,9 +29,9 @@ public class TaskBizImpl implements TaskBiz{
 	@Override
 	public void deleteTask(String name, ArrayList<Task> allTask) {
 		// TODO 自动生成的方法存根
-		for(int i=0;i<allTask.size();i++){
-			if(allTask.get(i).getName().equals(name)){
-				allTask.remove(i);
+		for(Task task: allTask){
+			if(task.getName().equals(name)){
+				allTask.remove(task);
 			}
 		}
 	}
@@ -39,9 +39,9 @@ public class TaskBizImpl implements TaskBiz{
 	@Override
 	public void changeType(String name, String type, ArrayList<Task> allTask) {
 		// TODO 自动生成的方法存根
-		for(int i=0;i<allTask.size();i++){
-			if(allTask.get(i).getName().equals(name)){
-				allTask.get(i).setType(type);
+		for(Task task: allTask){
+			if(task.getName().equals(name)){
+				task.setType(type);
 			}
 		}
 	}
@@ -49,9 +49,9 @@ public class TaskBizImpl implements TaskBiz{
 	@Override
 	public void changeState(String name, String state, ArrayList<Task> allTask) {
 		// TODO 自动生成的方法存根
-		for(int i=0;i<allTask.size();i++){
-			if(allTask.get(i).getName().equals(name)){
-				allTask.get(i).setState(state);
+		for(Task task: allTask){
+			if(task.getName().equals(name)){
+				task.setState(state);
 			}
 		}
 	}
