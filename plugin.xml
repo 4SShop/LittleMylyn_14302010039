@@ -87,14 +87,14 @@
 	            menubarPath="type/additions"> 
 	      	</action> 
 	      	<action 
-	            class="littlemylyn_14302010039.actions.ChangeTypeActionn"
+	            class="littlemylyn_14302010039.actions.ChangeTypeAction"
 	            enablesFor="+"
 	            id="littlemylyn_14302010039.actions.ChangeTypeAction.feature"
 	            label="new feature"
 	            menubarPath="type/additions"> 
 	      	</action> 
 	      	<action 
-	            class="littlemylyn_14302010039.actions.ChangeTypeActionn"
+	            class="littlemylyn_14302010039.actions.ChangeTypeAction"
 	            enablesFor="+"
 	            id="littlemylyn_14302010039.actions.ChangeTypeAction.refactor"
 	            label="refactor"

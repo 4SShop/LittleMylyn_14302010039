@@ -18,6 +18,8 @@ public interface TreeBiz {
 	
 	//a new tree
 	public Tree newTree();
+	
+	public Tree newTree(ArrayList<Task> allTask);
 	//get a task from the given tree node
 	//return null if fail
 	public Task TNtoT(TreeNode node,ArrayList<Task> allTask);
@@ -42,5 +44,7 @@ public interface TreeBiz {
 	//if there is not a tree node ,return null
 	public TreeNode TtoTN(Task task,Tree tree);
 	//get a task which is accordance with a node 
-	public Task getTaskBasedOnNode(TreeNode node, ArrayList<Task> allTask);
+	public Task getTaskBasedOnNode(Tree tree, TreeNode node, ArrayList<Task> allTask);
+	
+	public void deleteTask(Task task,Tree tree);
 }

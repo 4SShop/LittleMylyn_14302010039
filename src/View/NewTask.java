@@ -4,9 +4,7 @@ import java.util.ArrayList;
 
 import littlemylyn_14302010039.actions.DisplayTasksAction;
 import littlemylyn_14302010039.biz.TaskBiz;
-import littlemylyn_14302010039.biz.TreeBiz;
 import littlemylyn_14302010039.biz.impl.TaskBizImpl;
-import littlemylyn_14302010039.biz.impl.TreeBizImpl;
 import littlemylyn_14302010039.entity.Task;
 
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -43,12 +41,9 @@ public class NewTask extends Wizard {
 		String type = page.getType();
 		String state = page.getState();
 		TaskBiz taskbiz = new TaskBizImpl();
-		TreeBiz treebiz = new TreeBizImpl();
 		//new a task
-		Task newTask = taskbiz.newTask(name, type, state);
+		Task newTask = taskbiz.newTask(name, type, state, DisplayTasksAction.tree);
 		DisplayTasksAction.allTask.add(newTask);
-		//add a tree
-		treebiz.addTask(newTask, DisplayTasksAction.tree);
 		//refresh the viewPart
 		DisplayTasksAction.getTreeViewer().setInput(DisplayTasksAction.tree.getRoot());
 		return true;

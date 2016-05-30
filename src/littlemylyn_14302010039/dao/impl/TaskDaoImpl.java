@@ -15,7 +15,7 @@ public class TaskDaoImpl implements TaskDao{
 	public void saveTasks(ArrayList<Task> allTask){
 		//this part change system.out into a file
 		try{
-			File f=new File("tasks.txt");
+			File f=new File("tasks/tasks.txt");
 			f.createNewFile();
 			FileOutputStream fout = new FileOutputStream(f);
 			ObjectOutputStream out = new ObjectOutputStream(fout);
@@ -31,17 +31,17 @@ public class TaskDaoImpl implements TaskDao{
 	public ArrayList<Task> loadTasks(){
 		ArrayList<Task> allTask=new ArrayList<Task>();
 		try{
-			File f=new File("tasks.txt");
+			File f=new File("tasks/tasks.txt");
 			FileInputStream fin=new FileInputStream(f);
 			ObjectInputStream in=new ObjectInputStream(fin);
 			allTask=(ArrayList<Task>)in.readObject();
 			in.close();
 			
 		}catch(Exception ex){
+			ex.printStackTrace();
 			System.out.println("load error!");
 		}
 		return allTask;
-
 	}
 
 }

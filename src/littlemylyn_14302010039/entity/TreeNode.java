@@ -59,6 +59,7 @@ public class TreeNode {
 		if(this.children == null) 
 			children = new ArrayList<TreeNode>();
 		this.children.add(child);
+		child.setParent(this);
 	}
 	
 	public void removeChildren(TreeNode child) {

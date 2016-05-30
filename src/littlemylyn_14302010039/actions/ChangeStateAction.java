@@ -23,8 +23,8 @@ public  class ChangeStateAction implements IObjectActionDelegate {
 		if(selection != null) {
 			TreeNode node = (TreeNode)selection.getFirstElement();
 			String state = arg0.getText();
-			Task task = treebiz.getTaskBasedOnNode(node, DisplayTasksAction.allTask);
-			taskbiz.changeState(task.getName(), state, DisplayTasksAction.allTask);
+			Task task = treebiz.getTaskBasedOnNode(DisplayTasksAction.tree, node, DisplayTasksAction.allTask);
+			taskbiz.changeState(task, DisplayTasksAction.allTask, state, DisplayTasksAction.tree);
 			DisplayTasksAction.getTreeViewer().setInput(DisplayTasksAction.tree.getRoot());
 		}
 	}

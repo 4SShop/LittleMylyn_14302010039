@@ -3,6 +3,10 @@ package littlemylyn_14302010039.actions;
 
 import java.util.ArrayList;
 
+import littlemylyn_14302010039.biz.TaskBiz;
+import littlemylyn_14302010039.biz.TreeBiz;
+import littlemylyn_14302010039.biz.impl.TaskBizImpl;
+import littlemylyn_14302010039.biz.impl.TreeBizImpl;
 import littlemylyn_14302010039.entity.Task;
 import littlemylyn_14302010039.entity.Tree;
 import littlemylyn_14302010039.entity.TreeNode;
@@ -64,6 +68,10 @@ public class DisplayTasksAction extends ViewPart {
 	 * The constructor.
 	 */
 	public DisplayTasksAction() {
+		TaskBiz taskbiz = new TaskBizImpl();
+		TreeBiz treebiz = new TreeBizImpl();
+		allTask = taskbiz.getAllTask();
+		tree = treebiz.newTree(allTask);
 	}
 
 	/**
@@ -71,8 +79,8 @@ public class DisplayTasksAction extends ViewPart {
 	 * to create the viewer and initialize it.
 	 */
 	public void createPartControl(Composite parent) {
-		tree = new Tree(new TreeNode());
 		TreeNode root = tree.getRoot();
+		
 		TreeNode c1 = new TreeNode("1", root, null);
 		TreeNode c2 = new TreeNode("2", root, null);
 		root.addChild(c1);

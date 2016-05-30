@@ -19,6 +19,14 @@ public class TreeBizImpl implements TreeBiz {
 		Tree tree=new Tree(root);
 		return tree;
 	}
+	
+	@Override
+	public Tree newTree(ArrayList<Task> allTask){
+		TreeNode root=new TreeNode(null,null,null);
+		Tree tree=new Tree(root);
+		allTask.stream().forEach((p)->(addTask(p,tree)));
+		return tree;
+	}
 
 	@Override
 	public Task TNtoT(TreeNode node, ArrayList<Task> allTask) {
@@ -48,10 +56,11 @@ public class TreeBizImpl implements TreeBiz {
 	@Override
 	public void addTask(Task task, Tree tree) {
 		// TODO Auto-generated method stub
-		TreeNode node=new TreeNode(task.getName(),tree.getRoot(),null);
-		tree.getRoot().addChild(node);
-		node.addChild(new TreeNode(task.getState(),node,null));
-		node.addChild(new TreeNode(task.getType(),node,null));
+		TreeNode root = tree.getRoot();
+		TreeNode node=new TreeNode(task.getName(), root,null);
+		root.addChild(node);
+		node.addChild(new TreeNode(task.getState(), node, null));
+		node.addChild(new TreeNode(task.getType(), node, null));
 		TreeNode classes=new TreeNode("related class("+task.getRelatedFiles().size()+")",node,null);
 		node.addChild(classes);
 		for(IFile ifile:task.getRelatedFiles()){
@@ -75,7 +84,7 @@ public class TreeBizImpl implements TreeBiz {
 	@Override
 	public void changeType(TreeNode node, String type) {
 		// TODO Auto-generated method stub
-		node.getChildren().get(0).setName(type);
+		node.getChildren().get(1).setName(type);
 	}
 
 	@Override
@@ -84,18 +93,22 @@ public class TreeBizImpl implements TreeBiz {
 		String name=task.getName();
 		ArrayList<TreeNode> nodes=tree.getRoot().getChildren();
 		Optional<TreeNode> node=nodes.stream().filter((n)->(n.getName().equals(name))).findFirst();
-		if(node.isPresent()){
-			return node.get();
-		}
-		return null;
+		return node.orElse(null);
+	}
+
+	@Override
+	public void deleteTask(Task task, Tree tree) {
+		// TODO Auto-generated method stub
+		TreeNode node=TtoTN(task,tree);
+		tree.getRoot().removeChildren(node);
 	}
 	
 	@Override
-	public Task getTaskBasedOnNode(TreeNode node, ArrayList<Task> allTask) {
+	public Task getTaskBasedOnNode(Tree tree, TreeNode node, ArrayList<Task> allTask) {
 		// TODO 自动生成的方法存根
 		Task task = null;
 		if(node != null) {
-			while(node.getParent() != null) 
+			while(node.getParent() != tree.getRoot())
 				node = node.getParent();
 			task = TNtoT(node, allTask);
 		}
