@@ -1,22 +1,33 @@
 package littlemylyn_14302010039.actions;
 
+import littlemylyn_14302010039.biz.TaskBiz;
+import littlemylyn_14302010039.biz.impl.TaskBizImpl;
+import littlemylyn_14302010039.entity.Task;
+import littlemylyn_14302010039.entity.TreeNode;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 public class ChangeTypeAction implements IObjectActionDelegate{
-
+	IStructuredSelection selection;
+	TaskBiz taskbiz = new TaskBizImpl();
 	@Override
 	public void run(IAction arg0) {
 		// TODO 自动生成的方法存根
-		System.out.println("I was clicked");
+		if(selection != null) {
+			String state = arg0.getText();
+			String name = ((TreeNode)selection.getFirstElement()).getName();
+			Task task = taskbiz.getTask(name, DisplayTasksAction.allTask);
+			
+		}
 	}
 
 	@Override
 	public void selectionChanged(IAction arg0, ISelection arg1) {
 		// TODO 自动生成的方法存根
-		
+		this.selection = ((IStructuredSelection) arg1);
 	}
 
 	@Override

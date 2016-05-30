@@ -36,6 +36,5 @@ public  class ChangeStateAction implements IObjectActionDelegate {
 		// TODO 自动生成的方法存根
 		
 	}
-	
 }
 

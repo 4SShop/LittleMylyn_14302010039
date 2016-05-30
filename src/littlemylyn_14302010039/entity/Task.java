@@ -52,4 +52,7 @@ public class Task {
 	public void deleteFile(IFile file) {
 		relatedFiles.remove(file);
 	}
+	public ArrayList<IFile> getRelatedFiles() {
+		return relatedFiles;
+	}
 }
