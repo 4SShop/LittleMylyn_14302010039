@@ -17,16 +17,12 @@ public interface TreeBiz {
 	//a new tree
 	public Tree newTree();
 	//get a task from the given tree node
-	//return null if fail
 	public Task TNtoT(TreeNode node,ArrayList<Task> allTask);
 	//get the type of a task
-	//if the node is not the correct one,it will return null
 	public String getType(TreeNode node);
-	//get the type of a task
-	//if the node is not the correct one,it will return null
+	//get the state of a task
 	public String getState(TreeNode node);
 	//get the name of a task
-	//if the node is not the correct one,it will return null
 	public String getName(TreeNode node);
 	//add new tasks
 	public void addTask(Task task,Tree tree);
@@ -39,4 +35,6 @@ public interface TreeBiz {
 	//give a task and return the tree node 
 	//if there is not a tree node ,return null
 	public TreeNode TtoTN(Task task,Tree tree);
+	//delete a task
+	public void deleteTask(Task task,Tree tree);
 }

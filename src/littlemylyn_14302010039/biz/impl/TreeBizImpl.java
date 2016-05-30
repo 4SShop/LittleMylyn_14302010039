@@ -82,10 +82,14 @@ public class TreeBizImpl implements TreeBiz {
 		String name=task.getName();
 		ArrayList<TreeNode> nodes=tree.getRoot().getChildren();
 		Optional<TreeNode> node=nodes.stream().filter((n)->(n.getName().equals(name))).findFirst();
-		if(node.isPresent()){
-			return node.get();
-		}
-		return null;
+		return node.orElse(null);
+	}
+
+	@Override
+	public void deleteTask(Task task, Tree tree) {
+		// TODO Auto-generated method stub
+		TreeNode node=TtoTN(task,tree);
+		tree.getRoot().removeChildren(node);
 	}
 
 }

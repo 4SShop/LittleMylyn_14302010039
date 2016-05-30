@@ -3,57 +3,57 @@ package littlemylyn_14302010039.biz.impl;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IFile;
+
 import littlemylyn_14302010039.biz.TaskBiz;
 import littlemylyn_14302010039.entity.Task;
+import littlemylyn_14302010039.entity.Tree;
+import littlemylyn_14302010039.entity.TreeNode;
 
 public class TaskBizImpl implements TaskBiz{
 
 	@Override
-	public Task newTask(String name, String type, String state) {
+	public Task newTask(String name, String type, String state, Tree tree) {
 		// TODO 自动生成的方法存根
 		Task task=new Task(name,type,state);
+		new TreeBizImpl().addTask(task, tree);
 		return task;
 	}
 
 	@Override
 	public Task getTask(String name, ArrayList<Task> allTask) {
 		// TODO 自动生成的方法存根
-		for(Task task: allTask){
-			if(task.getName().equals(name)){
-				return task;
-			}
-		}
-		return null;
+		return allTask.stream().filter((p)->(p.getName().equals(name))).findFirst().orElse(null);
 	}
 
 	@Override
-	public void deleteTask(String name, ArrayList<Task> allTask) {
+	public void deleteTask(Task task, ArrayList<Task> allTask, Tree tree) {
 		// TODO 自动生成的方法存根
-		for(Task task: allTask){
-			if(task.getName().equals(name)){
-				allTask.remove(task);
-			}
-		}
+		new TreeBizImpl().deleteTask(task, tree);
+		allTask.remove(task);
 	}
 
 	@Override
-	public void changeType(String name, String type, ArrayList<Task> allTask) {
+	public void changeType(Task task, String type, Tree tree) {
 		// TODO 自动生成的方法存根
-		for(Task task: allTask){
-			if(task.getName().equals(name)){
-				task.setType(type);
-			}
-		}
+			TreeNode node=new TreeBizImpl().TtoTN(task, tree);
+			task.setType(type);
+			new TreeBizImpl().changeType(node, type);
 	}
 
 	@Override
-	public void changeState(String name, String state, ArrayList<Task> allTask) {
+	public void changeState(Task task, String state, ArrayList<Task> allTask, Tree tree) {
 		// TODO 自动生成的方法存根
-		for(Task task: allTask){
-			if(task.getName().equals(name)){
-				task.setState(state);
-			}
+		if(state.equals("Activated")){
+			allTask.stream().
+			filter((p)->(p.getState().equals("Activated"))).
+			forEach((p)->(p.setState("Finished")));
 		}
+		else if(state.equals("New")){
+			return;
+		}
+		TreeNode node=new TreeBizImpl().TtoTN(task, tree);
+		task.setState(state);
+		new TreeBizImpl().changeState(node, state);
 	}
 
 	@Override
