@@ -17,6 +17,14 @@ public class TreeBizImpl implements TreeBiz {
 		Tree tree=new Tree(root);
 		return tree;
 	}
+	
+	@Override
+	public Tree newTree(ArrayList<Task> allTask){
+		TreeNode root=new TreeNode(null,null,null);
+		Tree tree=new Tree(root);
+		allTask.stream().forEach((p)->(addTask(p,tree)));
+		return tree;
+	}
 
 	@Override
 	public Task TNtoT(TreeNode node, ArrayList<Task> allTask) {

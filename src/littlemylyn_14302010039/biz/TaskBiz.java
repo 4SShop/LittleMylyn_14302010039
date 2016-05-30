@@ -15,9 +15,9 @@ public interface TaskBiz {
 	//delete a target task
 	public void deleteTask(Task task, ArrayList<Task> allTask, Tree tree);
 	//change task to a appointed type
-	public void changeType(Task task, String type, Tree tree);
+	public void changeType(Task task, ArrayList<Task> allTask, String type, Tree tree);
 	//change task to a appointed state
 	public void changeState(Task task, String state, ArrayList<Task> allTask, Tree tree);
 	//add related file to the task
-	public void addRelatedFile(Task task, IFile file);
+	public void addRelatedFile(Task task, IFile file, ArrayList<Task> allTask);
 }

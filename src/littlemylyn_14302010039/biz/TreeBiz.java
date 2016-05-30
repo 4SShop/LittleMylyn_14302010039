@@ -16,6 +16,7 @@ public interface TreeBiz {
 	
 	//a new tree
 	public Tree newTree();
+	public Tree newTree(ArrayList<Task> allTask);
 	//get a task from the given tree node
 	public Task TNtoT(TreeNode node,ArrayList<Task> allTask);
 	//get the type of a task
