@@ -1,7 +1,9 @@
 package littlemylyn_14302010039.actions;
 
 import littlemylyn_14302010039.biz.TaskBiz;
+import littlemylyn_14302010039.biz.TreeBiz;
 import littlemylyn_14302010039.biz.impl.TaskBizImpl;
+import littlemylyn_14302010039.biz.impl.TreeBizImpl;
 import littlemylyn_14302010039.entity.Task;
 import littlemylyn_14302010039.entity.TreeNode;
 
@@ -13,15 +15,17 @@ import org.eclipse.ui.IWorkbenchPart;
 
 public  class ChangeStateAction implements IObjectActionDelegate {
 	IStructuredSelection selection;
-	TaskBiz taskbiz = new TaskBizImpl();
+	private TaskBiz taskbiz = new TaskBizImpl();
+	private TreeBiz treebiz = new TreeBizImpl();
 	@Override
 	public void run(IAction arg0) {
 		// TODO 自动生成的方法存根
 		if(selection != null) {
+			TreeNode node = (TreeNode)selection.getFirstElement();
 			String state = arg0.getText();
-			Task task;
-			
-			System.out.println(((TreeNode)selection.getFirstElement()).getName());
+			Task task = treebiz.getTaskBasedOnNode(node, DisplayTasksAction.allTask);
+			taskbiz.changeState(task.getName(), state, DisplayTasksAction.allTask);
+			DisplayTasksAction.getTreeViewer().setInput(DisplayTasksAction.tree.getRoot());
 		}
 	}
 

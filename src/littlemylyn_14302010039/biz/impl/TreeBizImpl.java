@@ -89,5 +89,16 @@ public class TreeBizImpl implements TreeBiz {
 		}
 		return null;
 	}
-
+	
+	@Override
+	public Task getTaskBasedOnNode(TreeNode node, ArrayList<Task> allTask) {
+		// TODO 自动生成的方法存根
+		Task task = null;
+		if(node != null) {
+			while(node.getParent() != null) 
+				node = node.getParent();
+			task = TNtoT(node, allTask);
+		}
+		return task;
+	}
 }

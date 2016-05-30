@@ -41,4 +41,6 @@ public interface TreeBiz {
 	//give a task and return the tree node 
 	//if there is not a tree node ,return null
 	public TreeNode TtoTN(Task task,Tree tree);
+	//get a task which is accordance with a node 
+	public Task getTaskBasedOnNode(TreeNode node, ArrayList<Task> allTask);
 }

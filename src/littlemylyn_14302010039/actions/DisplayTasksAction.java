@@ -4,15 +4,13 @@ package littlemylyn_14302010039.actions;
 import java.util.ArrayList;
 
 import littlemylyn_14302010039.entity.Task;
+import littlemylyn_14302010039.entity.Tree;
 import littlemylyn_14302010039.entity.TreeNode;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.*;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.jface.action.*;
 import org.eclipse.ui.*;
@@ -47,7 +45,7 @@ public class DisplayTasksAction extends ViewPart {
 	 */
 	public static final String ID = "littlemylyn_14302010039.DisplayTasksAction";
 	public static ArrayList<Task> allTask;
-	public static littlemylyn_14302010039.entity.TreeNode root;
+	public static Tree tree;
 	private static TreeViewer viewer;
 	private Action doubleClickAction;
 
@@ -73,7 +71,8 @@ public class DisplayTasksAction extends ViewPart {
 	 * to create the viewer and initialize it.
 	 */
 	public void createPartControl(Composite parent) {
-		root = new TreeNode();
+		tree = new Tree(new TreeNode());
+		TreeNode root = tree.getRoot();
 		TreeNode c1 = new TreeNode("1", root, null);
 		TreeNode c2 = new TreeNode("2", root, null);
 		root.addChild(c1);
