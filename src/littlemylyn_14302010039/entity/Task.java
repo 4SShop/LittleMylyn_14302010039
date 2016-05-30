@@ -45,8 +45,16 @@ public class Task {
 	/**
 	 * @return hashMap
 	 */
+	
+	/**
+	 * @param file
+	 */
 	public void addFile(IFile file) {
 		relatedFiles.add(file);
+	}
+	
+	public ArrayList<IFile> getRelatedFiles() {
+		return relatedFiles;
 	}
 	
 	public void deleteFile(IFile file) {
