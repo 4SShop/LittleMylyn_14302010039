@@ -1,11 +1,12 @@
 package littlemylyn_14302010039.entity;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IFile;
 
-public class Task {
+public class Task implements Serializable{
 	private String type;
 	private String state;
 	private String name;
