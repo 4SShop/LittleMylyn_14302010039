@@ -42,8 +42,7 @@ public class NewTask extends Wizard {
 		String state = page.getState();
 		TaskBiz taskbiz = new TaskBizImpl();
 		//new a task
-		Task newTask = taskbiz.newTask(name, type, state, DisplayTasksAction.tree);
-		DisplayTasksAction.allTask.add(newTask);
+		Task newTask = taskbiz.newTask(name, type, state, DisplayTasksAction.tree, DisplayTasksAction.allTask);
 		//refresh the viewPart
 		DisplayTasksAction.getTreeViewer().setInput(DisplayTasksAction.tree.getRoot());
 		return true;

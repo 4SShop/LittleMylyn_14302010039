@@ -81,14 +81,6 @@ public class DisplayTasksAction extends ViewPart {
 	public void createPartControl(Composite parent) {
 		TreeNode root = tree.getRoot();
 		
-		TreeNode c1 = new TreeNode("1", root, null);
-		TreeNode c2 = new TreeNode("2", root, null);
-		root.addChild(c1);
-		root.addChild(c2);
-		TreeNode c3 = new TreeNode("3", c1, null);
-		TreeNode c4 = new TreeNode("4", c1, null);
-		c1.addChild(c3);
-		c1.addChild(c4);
 		viewer = new TreeViewer(parent);
 		viewer.setContentProvider(new MyContentProvider());
 		viewer.setLabelProvider(new MyLableProvider());

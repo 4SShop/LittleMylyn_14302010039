@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.eclipse.core.resources.IFile;
 
 public class TreeNode {
-	private String name;
+	private String name = "";
 	private TreeNode parent;
 	private ArrayList<TreeNode> children;
 	private IFile file;

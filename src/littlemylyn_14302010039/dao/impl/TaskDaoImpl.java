@@ -11,12 +11,12 @@ import littlemylyn_14302010039.dao.TaskDao;
 import littlemylyn_14302010039.entity.Task;
 
 public class TaskDaoImpl implements TaskDao{
-	
+
 	public void saveTasks(ArrayList<Task> allTask){
 		//this part change system.out into a file
+		
 		try{
-			File f=new File("/tasks.txt");
-			f.createNewFile();
+			File f=new File("tasks.txt");
 			FileOutputStream fout = new FileOutputStream(f);
 			ObjectOutputStream out = new ObjectOutputStream(fout);
 			Task[] all=new Task[allTask.size()];
@@ -36,21 +36,21 @@ public class TaskDaoImpl implements TaskDao{
 	public ArrayList<Task> loadTasks(){
 		ArrayList<Task> allTask=new ArrayList<Task>();
 		try{
-			File f=new File("/tasks.txt");
-			FileInputStream fin=new FileInputStream(f);
-			ObjectInputStream in=new ObjectInputStream(fin);
-			Task[] all=(Task[])in.readObject();
-			for(int i=0;i<all.length;i++){
-				allTask.add(all[i]);
+			File f=new File("tasks.txt");
+			if(f.exists()) {
+				FileInputStream fin=new FileInputStream(f);
+				ObjectInputStream in=new ObjectInputStream(fin);
+				Task[] all=(Task[])in.readObject();
+				for(int i=0;i<all.length;i++){
+					allTask.add(all[i]);
+				}
+				in.close();
 			}
-			in.close();
-			
+
 		}catch(Exception ex){
 			ex.printStackTrace();
 			System.out.println("load error!");
 		}
 		return allTask;
-
 	}
-
 }

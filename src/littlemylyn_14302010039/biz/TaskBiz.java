@@ -9,7 +9,7 @@ import littlemylyn_14302010039.entity.Tree;
 
 public interface TaskBiz {
 	//new a task
-	public Task newTask(String name,String type, String state, Tree tree);
+	public Task newTask(String name,String type, String state, Tree tree, ArrayList<Task> allTask);
 	//return a target task based on name
 	public Task getTask(String name, ArrayList<Task> allTask);
 	//delete a target task
