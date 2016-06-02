@@ -27,6 +27,18 @@ import littlemylyn_14302010039.entity.TreeNode;
 public class ConnectTaskAction {
 	IStructuredSelection selection;
 	ArrayList<Task> allTasks;
+	public ConnectTaskAction(ArrayList<Task> allTask){
+		this.allTasks = allTask;
+		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		String id = "org.eclipse.ui.navigator.ProjectExplorer";//"org.eclipse.jdt.ui.ProjectsView";//"org.eclipse.jdt.ui.PackageExplorer"
+		IViewPart viewPart = page.findView(id);
+		ISelectionProvider provider = viewPart.getSite().getSelectionProvider();
+		provider.addSelectionChangedListener(new ConnectListener());
+		id = "org.eclipse.jdt.ui.PackageExplorer";//"org.eclipse.jdt.ui.ProjectsView";//"org.eclipse.jdt.ui.PackageExplorer"
+		viewPart = page.findView(id);
+		provider = viewPart.getSite().getSelectionProvider();
+		provider.addSelectionChangedListener(new ConnectListener());
+	}
 	class ConnectListener implements ISelectionChangedListener{
 
 		@Override
@@ -37,27 +49,34 @@ public class ConnectTaskAction {
 			if (!(editor instanceof ITextEditor)) {
 				return;
 			}
-			ITextEditor ite = (ITextEditor)editor;
-		    IDocument doc = ite.getDocumentProvider().getDocument(ite.getEditorInput());
-		    doc.addDocumentListener(new IDocumentListener(){
+			System.out.println("selection changed");
+			if(editor.isDirty()){
+				ITextEditor ite = (ITextEditor)editor;
+				IDocument doc = ite.getDocumentProvider().getDocument(ite.getEditorInput());
+		    //doc.removeDocumentListener();
+		    
+				doc.addDocumentListener(new IDocumentListener(){
 
-				@Override
-				public void documentAboutToBeChanged(DocumentEvent arg0) {
+					@Override
+					public void documentAboutToBeChanged(DocumentEvent arg0) {
 					// TODO Auto-generated method stub
 					
-				}
-				@Override
-				public void documentChanged(DocumentEvent arg0) {
-					System.out.println("file change ");
+					}
+					@Override
+					public void documentChanged(DocumentEvent arg0) {
+						System.out.println("file change ");
 					// TODO Auto-generated method stub
-					Task task = findActivatedTask();
-					IEditorInput input = editor.getEditorInput();
-					IFile original= (input instanceof IFileEditorInput) ?
-			                  ((IFileEditorInput) input).getFile() : null;
-			        task.addFile(original);
-				}
+						Task task = findActivatedTask();
+						IEditorInput input = editor.getEditorInput();
+						IFile original= (input instanceof IFileEditorInput) ?
+								((IFileEditorInput) input).getFile() : null;
+			                  if(original == null)
+			                	  return;
+			                  task.addFile(original);
+					}
 		    	
-		    });
+				});
+			}
 		}
 		
 	}
