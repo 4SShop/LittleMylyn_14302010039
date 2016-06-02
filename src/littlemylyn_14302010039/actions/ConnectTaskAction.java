@@ -34,10 +34,11 @@ public class ConnectTaskAction {
 		IViewPart viewPart = page.findView(id);
 		ISelectionProvider provider = viewPart.getSite().getSelectionProvider();
 		provider.addSelectionChangedListener(new ConnectListener());
-		id = "org.eclipse.jdt.ui.PackageExplorer";//"org.eclipse.jdt.ui.ProjectsView";//"org.eclipse.jdt.ui.PackageExplorer"
+		/*id = "org.eclipse.jdt.ui.PackageExplorer";//"org.eclipse.jdt.ui.ProjectsView";//"org.eclipse.jdt.ui.PackageExplorer"
 		viewPart = page.findView(id);
 		provider = viewPart.getSite().getSelectionProvider();
 		provider.addSelectionChangedListener(new ConnectListener());
+		*/
 	}
 	class ConnectListener implements ISelectionChangedListener{
 
@@ -50,7 +51,7 @@ public class ConnectTaskAction {
 				return;
 			}
 			System.out.println("selection changed");
-			if(editor.isDirty()){
+			if(!editor.isDirty()){
 				ITextEditor ite = (ITextEditor)editor;
 				IDocument doc = ite.getDocumentProvider().getDocument(ite.getEditorInput());
 		    //doc.removeDocumentListener();
@@ -67,6 +68,9 @@ public class ConnectTaskAction {
 						System.out.println("file change ");
 					// TODO Auto-generated method stub
 						Task task = findActivatedTask();
+						if(task == null){
+							return;
+						}
 						IEditorInput input = editor.getEditorInput();
 						IFile original= (input instanceof IFileEditorInput) ?
 								((IFileEditorInput) input).getFile() : null;

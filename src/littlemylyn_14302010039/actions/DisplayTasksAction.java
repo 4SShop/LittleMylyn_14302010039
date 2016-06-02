@@ -62,7 +62,14 @@ public class DisplayTasksAction extends ViewPart {
 	 * it and always show the same content 
 	 * (like Task List, for example).
 	 */
-	 
+	static {
+		TaskBiz taskbiz = new TaskBizImpl();
+		TreeBiz treebiz = new TreeBizImpl();
+		allTask = taskbiz.getAllTask();
+		System.out.println("alltask");
+		new ConnectTaskAction(allTask);
+		tree = treebiz.newTree(allTask);
+	}
 	
 	/**
 	 * The constructor.
@@ -71,7 +78,7 @@ public class DisplayTasksAction extends ViewPart {
 		TaskBiz taskbiz = new TaskBizImpl();
 		TreeBiz treebiz = new TreeBizImpl();
 		allTask = taskbiz.getAllTask();
-		System.out.print("alltask");
+		System.out.println("alltask");
 		new ConnectTaskAction(allTask);
 		tree = treebiz.newTree(allTask);
 	}
