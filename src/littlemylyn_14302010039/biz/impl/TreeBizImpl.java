@@ -24,7 +24,7 @@ public class TreeBizImpl implements TreeBiz {
 	public Tree newTree(ArrayList<Task> allTask){
 		TreeNode root=new TreeNode(null,null,null);
 		Tree tree=new Tree(root);
-		allTask.stream().forEach((p)->(addTask(p,tree)));
+		allTask.stream().forEach((p)->addTask(p,tree));
 		return tree;
 	}
 

@@ -51,7 +51,7 @@ public class TaskBizImpl implements TaskBiz{
 		if(state.equals("Activated")){
 			allTask.stream().
 			filter((p)->(p.getState().equals("Activated"))).
-			forEach((p)->(p.setState("Finished")));
+			forEach((p)->p.setState("Finished"));
 		}
 		else if(state.equals("New")){
 			return;

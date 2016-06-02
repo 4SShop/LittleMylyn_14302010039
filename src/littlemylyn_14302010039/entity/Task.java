@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import org.eclipse.core.resources.IFile;
 
 public class Task implements Serializable{
+	public static String ACTIVATED = "activated";
+	public static String NEW = "new";
+	public static String FINISHED = "finished";
 	private String type;
 	private String state;
 	private String name;
