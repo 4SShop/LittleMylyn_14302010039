@@ -23,6 +23,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.jface.text.*;
+
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.*;
@@ -37,6 +40,37 @@ public class ConnectTaskAction {
 		this.allTasks = allTask;
 		this.documentListeners = new ArrayList<>();
 		addListener();
+		PlatformUI.getWorkbench().addWindowListener(new IWindowListener(){
+
+			@Override
+			public void windowActivated(IWorkbenchWindow arg0) {
+				// TODO Auto-generated method stub
+				//System.out.println("open1");
+				addListener();
+			}
+
+			@Override
+			public void windowClosed(IWorkbenchWindow arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowDeactivated(IWorkbenchWindow arg0) {
+				// TODO Auto-generated method stub
+				addListener();
+			}
+
+			@Override
+			public void windowOpened(IWorkbenchWindow arg0) {
+				// TODO Auto-generated method stub
+				//System.out.println("open2");
+				//addListener();
+			}
+
+			
+			
+		});
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(
 				   new  IResourceChangeListener(){
 
@@ -45,7 +79,11 @@ public class ConnectTaskAction {
 						addListener();
 					}
 					   
-		 }, IResourceChangeEvent.POST_CHANGE);
+		 }, IResourceChangeEvent.PRE_CLOSE
+				      | IResourceChangeEvent.PRE_DELETE
+				      | IResourceChangeEvent.PRE_BUILD
+				      | IResourceChangeEvent.POST_BUILD
+				      | IResourceChangeEvent.POST_CHANGE);
 		
 		
 		
@@ -78,20 +116,24 @@ public class ConnectTaskAction {
 		}
 		//System.out.println("ieditor pars ");
 		for(IEditorReference editorre : ieditorpars){
+			System.out.println("add editor");
 			if(editorre == null){
 				//System.out.println("no editorre");
 				return;
 			}
-			IEditorPart editor = editorre.getEditor(false);
+			IEditorPart editor = editorre.getEditor(true);
 			if(!(editor instanceof ITextEditor)){
 				//System.out.println("not texteditor");
 				continue;
 			}
+			System.out.println("before editor");
 			DocumentListener docListener = findDocumentListener(editor);
 			if(docListener == null){
+				System.out.println("add editor" + editorre.getName());
 				docListener = new DocumentListener(editor);
 				ITextEditor ite = (ITextEditor)editor;
 				IDocument doc = ite.getDocumentProvider().getDocument(ite.getEditorInput());
+				documentListeners.add(docListener);
 		    //doc.removeDocumentListener();
 		    
 				doc.addDocumentListener(docListener);
@@ -192,7 +234,7 @@ public class ConnectTaskAction {
 				ITextEditor ite = (ITextEditor)editor;
 				IDocument doc = ite.getDocumentProvider().getDocument(ite.getEditorInput());
 		    //doc.removeDocumentListener();
-		    
+				System.out.println("file changed");
 				doc.addDocumentListener(new IDocumentListener(){
 
 					@Override
@@ -202,19 +244,19 @@ public class ConnectTaskAction {
 					}
 					@Override
 					public void documentChanged(DocumentEvent arg0) {
-						System.out.println("file change no");
-						System.out.println("no task 2");
+						//System.out.println("file change no");
+						//System.out.println("no task 2");
 						Task task = findActivatedTask();
 						if(task == null){
 							System.out.println("no task");
 							return;
 						}
-						System.out.println("task");
+						//System.out.println("task");
 						IEditorInput input = editor.getEditorInput();
 						IFile original= (input instanceof IFileEditorInput) ?
 								((IFileEditorInput) input).getFile() : null;
 			            if(original == null){
-			                System.out.println("no file");
+			                //System.out.println("no file");
 			                 return;
 			            }
 			            if(task.getRelatedFiles().contains(original)){
