@@ -29,6 +29,52 @@ public class ConnectTaskAction {
 	ArrayList<Task> allTasks;
 	public ConnectTaskAction(ArrayList<Task> allTask){
 		this.allTasks = allTask;
+		IEditorPart[] ieditorpars = (IEditorPart[]) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences();
+		for(IEditorPart editor : ieditorpars){
+			if(!(editor instanceof ITextEditor)){
+				System.out.println("not texteditor");
+				continue;
+			}
+			ITextEditor ite = (ITextEditor)editor;
+			IDocument doc = ite.getDocumentProvider().getDocument(ite.getEditorInput());
+	    //doc.removeDocumentListener();
+	    
+			doc.addDocumentListener(new IDocumentListener(){
+
+				@Override
+				public void documentAboutToBeChanged(DocumentEvent arg0) {
+				// TODO Auto-generated method stub
+				
+				}
+				@Override
+				public void documentChanged(DocumentEvent arg0) {
+					System.out.println("file change no");
+					System.out.println("no task 2");
+					Task task = findActivatedTask();
+					if(task == null){
+						System.out.println("no task");
+						return;
+					}
+					System.out.println("task");
+					IEditorInput input = editor.getEditorInput();
+					IFile original= (input instanceof IFileEditorInput) ?
+							((IFileEditorInput) input).getFile() : null;
+		            if(original == null){
+		                System.out.println("no file");
+		                 return;
+		            }
+		            if(task.getRelatedFiles().contains(original)){
+		            	System.out.println("success");
+		            	return;
+		            }
+		                  
+		                  task.addFile(original);
+		                  System.out.println("success");
+				}
+	    	
+			});
+		}
+		
 		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		String id = "org.eclipse.ui.navigator.ProjectExplorer";//"org.eclipse.jdt.ui.ProjectsView";//"org.eclipse.jdt.ui.PackageExplorer"
 		IViewPart viewPart = page.findView(id);
@@ -64,7 +110,7 @@ public class ConnectTaskAction {
 					}
 					@Override
 					public void documentChanged(DocumentEvent arg0) {
-						System.out.println("file change ");
+						System.out.println("file change no");
 						System.out.println("no task 2");
 						Task task = findActivatedTask();
 						if(task == null){
