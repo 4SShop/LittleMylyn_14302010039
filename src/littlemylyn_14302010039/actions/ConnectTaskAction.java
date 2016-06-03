@@ -8,12 +8,17 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.IWindowListener;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchListener;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.eclipse.ui.texteditor.ITextEditor;
@@ -27,64 +32,151 @@ import littlemylyn_14302010039.entity.TreeNode;
 public class ConnectTaskAction {
 	IStructuredSelection selection;
 	ArrayList<Task> allTasks;
+	private ArrayList<DocumentListener> documentListeners;
 	public ConnectTaskAction(ArrayList<Task> allTask){
 		this.allTasks = allTask;
-		IEditorPart[] ieditorpars = (IEditorPart[]) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences();
-		for(IEditorPart editor : ieditorpars){
-			if(!(editor instanceof ITextEditor)){
-				System.out.println("not texteditor");
-				continue;
-			}
-			ITextEditor ite = (ITextEditor)editor;
-			IDocument doc = ite.getDocumentProvider().getDocument(ite.getEditorInput());
-	    //doc.removeDocumentListener();
-	    
-			doc.addDocumentListener(new IDocumentListener(){
+		this.documentListeners = new ArrayList<>();
+		addListener();
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(
+				   new  IResourceChangeListener(){
 
-				@Override
-				public void documentAboutToBeChanged(DocumentEvent arg0) {
-				// TODO Auto-generated method stub
-				
-				}
-				@Override
-				public void documentChanged(DocumentEvent arg0) {
-					System.out.println("file change no");
-					System.out.println("no task 2");
-					Task task = findActivatedTask();
-					if(task == null){
-						System.out.println("no task");
-						return;
+					@Override
+					public void resourceChanged(IResourceChangeEvent arg0) {
+						addListener();
 					}
-					System.out.println("task");
-					IEditorInput input = editor.getEditorInput();
-					IFile original= (input instanceof IFileEditorInput) ?
-							((IFileEditorInput) input).getFile() : null;
-		            if(original == null){
-		                System.out.println("no file");
-		                 return;
-		            }
-		            if(task.getRelatedFiles().contains(original)){
-		            	System.out.println("success");
-		            	return;
-		            }
-		                  
-		                  task.addFile(original);
-		                  System.out.println("success");
-				}
-	    	
-			});
-		}
+					   
+		 }, IResourceChangeEvent.POST_CHANGE);
 		
-		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		
+		
+		/*IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		String id = "org.eclipse.ui.navigator.ProjectExplorer";//"org.eclipse.jdt.ui.ProjectsView";//"org.eclipse.jdt.ui.PackageExplorer"
 		IViewPart viewPart = page.findView(id);
 		ISelectionProvider provider = viewPart.getSite().getSelectionProvider();
 		provider.addSelectionChangedListener(new ConnectListener());
+		*/
 		/*id = "org.eclipse.jdt.ui.PackageExplorer";//"org.eclipse.jdt.ui.ProjectsView";//"org.eclipse.jdt.ui.PackageExplorer"
 		viewPart = page.findView(id);
 		provider = viewPart.getSite().getSelectionProvider();
 		provider.addSelectionChangedListener(new ConnectListener());
 		*/
+	}
+	public DocumentListener findDocumentListener(IEditorPart editor){
+		for(DocumentListener tmp : this.documentListeners){
+			if(tmp.editor == editor){
+				return tmp;
+			}
+		}
+		return null;
+	}
+	public void addListener(){
+		IEditorReference[] ieditorpars  = null;
+		try{
+			 ieditorpars = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences();
+		}catch(Exception ex){
+			return;
+		}
+		//System.out.println("ieditor pars ");
+		for(IEditorReference editorre : ieditorpars){
+			if(editorre == null){
+				//System.out.println("no editorre");
+				return;
+			}
+			IEditorPart editor = editorre.getEditor(false);
+			if(!(editor instanceof ITextEditor)){
+				//System.out.println("not texteditor");
+				continue;
+			}
+			DocumentListener docListener = findDocumentListener(editor);
+			if(docListener == null){
+				docListener = new DocumentListener(editor);
+				ITextEditor ite = (ITextEditor)editor;
+				IDocument doc = ite.getDocumentProvider().getDocument(ite.getEditorInput());
+		    //doc.removeDocumentListener();
+		    
+				doc.addDocumentListener(docListener);
+			}
+	    //doc.removeDocumentListener();
+			/*if(!editor.isDirty()){
+				ITextEditor ite = (ITextEditor)editor;
+				IDocument doc = ite.getDocumentProvider().getDocument(ite.getEditorInput());
+		    //doc.removeDocumentListener();
+		    
+				doc.addDocumentListener(new IDocumentListener(){
+
+					@Override
+					public void documentAboutToBeChanged(DocumentEvent arg0) {
+					// TODO Auto-generated method stub
+					
+					}
+					@Override
+					public void documentChanged(DocumentEvent arg0) {
+						//System.out.println("file change no");
+						//System.out.println("no task 2");
+						Task task = findActivatedTask();
+						if(task == null){
+							//System.out.println("no task");
+							return;
+						}
+						//System.out.println("task");
+						IEditorInput input = editor.getEditorInput();
+						IFile original= (input instanceof IFileEditorInput) ?
+								((IFileEditorInput) input).getFile() : null;
+			            if(original == null){
+			                //System.out.println("no file");
+			                 return;
+			            }
+			            if(task.getRelatedFiles().contains(original)){
+			            	System.out.println("success"+original.getName());
+			            	return;
+			            }
+			                  
+			                  task.addFile(original);
+			                  System.out.println("success"+original.getName());
+					}
+		    	
+				});
+			}*/
+		}
+	}
+	class DocumentListener implements IDocumentListener{
+		IEditorPart editor;
+		public DocumentListener(IEditorPart editor){
+			this.editor = editor;
+		}
+		@Override
+		public void documentAboutToBeChanged(DocumentEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void documentChanged(DocumentEvent arg0) {
+			// TODO Auto-generated method stub
+			Task task = findActivatedTask();
+			if(task == null){
+				//System.out.println("no task");
+				return;
+			}
+			//System.out.println("task");
+			IEditorInput input = editor.getEditorInput();
+			IFile original= (input instanceof IFileEditorInput) ?
+					((IFileEditorInput) input).getFile() : null;
+            if(original == null){
+                //System.out.println("no file");
+                 return;
+            }
+            if(task.getRelatedFiles().contains(original)){
+            	System.out.println("success"+original.getName());
+            	return;
+            }
+                  
+                  task.addFile(original);
+                  System.out.println("success"+original.getName());
+		}
+	
+		
+		
 	}
 	class ConnectListener implements ISelectionChangedListener{
 		@Override
