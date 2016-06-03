@@ -41,7 +41,6 @@ public class ConnectTaskAction {
 		*/
 	}
 	class ConnectListener implements ISelectionChangedListener{
-
 		@Override
 		public void selectionChanged(SelectionChangedEvent arg0) {
 			// TODO Auto-generated method stub
@@ -66,17 +65,27 @@ public class ConnectTaskAction {
 					@Override
 					public void documentChanged(DocumentEvent arg0) {
 						System.out.println("file change ");
-					// TODO Auto-generated method stub
+						System.out.println("no task 2");
 						Task task = findActivatedTask();
 						if(task == null){
+							System.out.println("no task");
 							return;
 						}
+						System.out.println("task");
 						IEditorInput input = editor.getEditorInput();
 						IFile original= (input instanceof IFileEditorInput) ?
 								((IFileEditorInput) input).getFile() : null;
-			                  if(original == null)
-			                	  return;
+			            if(original == null){
+			                System.out.println("no file");
+			                 return;
+			            }
+			            if(task.getRelatedFiles().contains(original)){
+			            	System.out.println("success");
+			            	return;
+			            }
+			                  
 			                  task.addFile(original);
+			                  System.out.println("success");
 					}
 		    	
 				});
