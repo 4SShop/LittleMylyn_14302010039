@@ -38,13 +38,14 @@ public class ConnectTaskAction {
 	ArrayList<Task> allTasks;
 	public ConnectTaskAction(ArrayList<Task> allTask){
 		this.allTasks = allTask;
-		//this.documentListeners = new ArrayList<>();
+		
 
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		IWorkbenchPage page = window.getActivePage();
-//		IWorkspace space = ResourcesPlugin.getWorkspace();
-		
+		/*
+		 * add listener to listen the event that open a new editor
+		 */
 		page.addPartListener(new IPartListener() {
 			@Override
 			public void partOpened(IWorkbenchPart part) {
@@ -75,6 +76,9 @@ public class ConnectTaskAction {
 			}
 		});
 	}
+	/*
+	 * when open a new editor add this editor to the activated task
+	 */
 	public void connect(IWorkbenchPart part){
 		if(part instanceof IEditorPart){
 			Task task = findActivatedTask();
@@ -89,15 +93,37 @@ public class ConnectTaskAction {
             	System.out.println("success c"+original.getName());
             	return;
             }
-                  
-                  task.addFile(original);
-                  System.out.println("success"+original.getName());
+            task.addFile(original);
+            System.out.println("success"+original.getName());
+            /*
+             * if modified the class and add it use this
+             */
+            /*
+            if(((IEditorPart) part).isDirty()){
+            	Task task = findActivatedTask();
+    			IEditorInput input = ((IEditorPart) part).getEditorInput();
+    			IFile original= (input instanceof IFileEditorInput) ?
+    					((IFileEditorInput) input).getFile() : null;
+                if(original == null){
+                    //System.out.println("no file");
+                     return;
+                }
+                if(task.getRelatedFiles().contains(original)){
+                	System.out.println("success c"+original.getName());
+                	return;
+                }
+                task.addFile(original);
+                System.out.println("success"+original.getName());
+            }*/
 		}
 	}
 	
 	public void setAllTask(ArrayList<Task> allTask){
 		this.allTasks = allTask;
 	}
+	/*
+	 * find the activated task now
+	 */
 	public Task findActivatedTask(){
 		if(allTasks != null){
 			for (Task tmp : allTasks){
