@@ -25,6 +25,7 @@ public class TaskDaoImpl implements TaskDao{
 			}
 			out.writeObject(all);
 			out.close();
+			fout.close();
 		}
 		catch(IOException e){
 			e.printStackTrace();
@@ -39,12 +40,15 @@ public class TaskDaoImpl implements TaskDao{
 			File f=new File("tasks.txt");
 			if(f.exists()) {
 				FileInputStream fin=new FileInputStream(f);
-				ObjectInputStream in=new ObjectInputStream(fin);
-				Task[] all=(Task[])in.readObject();
-				for(int i=0;i<all.length;i++){
-					allTask.add(all[i]);
+				if(fin.available() != 0) {
+					ObjectInputStream in=new ObjectInputStream(fin);
+					Task[] all=(Task[])in.readObject();
+					for(int i=0;i<all.length;i++){
+						allTask.add(all[i]);
+					}
+					in.close();
 				}
-				in.close();
+				fin.close();
 			}
 
 		}catch(Exception ex){

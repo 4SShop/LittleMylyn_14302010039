@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.eclipse.core.resources.IFile;
 
+import littlemylyn_14302010039.actions.DisplayTasksAction;
 import littlemylyn_14302010039.biz.TaskBiz;
 import littlemylyn_14302010039.dao.impl.TaskDaoImpl;
 import littlemylyn_14302010039.entity.Task;
@@ -19,6 +20,7 @@ public class TaskBizImpl implements TaskBiz{
 		new TreeBizImpl().addTask(task, tree);
 		allTask.add(task);
 		new TaskDaoImpl().saveTasks(allTask);
+		refresh();
 		return task;
 	}
 
@@ -34,6 +36,7 @@ public class TaskBizImpl implements TaskBiz{
 		new TreeBizImpl().deleteTask(task, tree);
 		allTask.remove(task);
 		new TaskDaoImpl().saveTasks(allTask);
+		refresh();
 	}
 
 	@Override
@@ -43,6 +46,7 @@ public class TaskBizImpl implements TaskBiz{
 		task.setType(type);
 		new TreeBizImpl().changeType(node, type);
 		new TaskDaoImpl().saveTasks(allTask);
+		refresh();
 	}
 
 	@Override
@@ -60,6 +64,7 @@ public class TaskBizImpl implements TaskBiz{
 		task.setState(state);
 		new TreeBizImpl().changeState(node, state);
 		new TaskDaoImpl().saveTasks(allTask);
+		refresh();
 	}
 
 	@Override
@@ -67,12 +72,28 @@ public class TaskBizImpl implements TaskBiz{
 		// TODO 自动生成的方法存根
 		task.addFile(file);
 		new TaskDaoImpl().saveTasks(allTask);
+		refresh();
 	}
 
 	@Override
 	public ArrayList<Task> getAllTask() {
 		// TODO 自动生成的方法存根
 		return new TaskDaoImpl().loadTasks();
+	}
+
+	@Override
+	public void refresh() {
+		// TODO 自动生成的方法存根
+		DisplayTasksAction.getTreeViewer().setInput(DisplayTasksAction.tree.getRoot());
+	}
+
+	@Override
+	public void deleteRelatedFile(Task task, IFile file, ArrayList<Task> allTask, TreeNode node) {
+		// TODO 自动生成的方法存根
+		task.getRelatedFiles().remove(file);
+		new TreeBizImpl().deleteNode(node);
+		new TaskDaoImpl().saveTasks(allTask);
+		refresh();
 	}
 
 }

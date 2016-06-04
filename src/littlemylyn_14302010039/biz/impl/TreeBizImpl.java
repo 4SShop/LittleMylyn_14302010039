@@ -114,4 +114,16 @@ public class TreeBizImpl implements TreeBiz {
 		}
 		return task;
 	}
+
+	@Override
+	public void deleteNode(TreeNode node) {
+		// TODO 自动生成的方法存根
+		TreeNode parent = node.getParent();
+		if(parent == null) {
+			node = null;
+		}
+		else {
+			parent.getChildren().remove(node);
+		}
+	}
 }

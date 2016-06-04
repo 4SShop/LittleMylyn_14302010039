@@ -3,8 +3,6 @@ package View;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
-
-import littlemylyn_14302010039.entity.Task;
 import littlemylyn_14302010039.entity.TreeNode;
 
 public class MyLableProvider implements ILabelProvider {

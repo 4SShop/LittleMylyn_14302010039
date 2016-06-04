@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import littlemylyn_14302010039.actions.DisplayTasksAction;
 import littlemylyn_14302010039.biz.TaskBiz;
 import littlemylyn_14302010039.biz.impl.TaskBizImpl;
-import littlemylyn_14302010039.entity.Task;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
@@ -42,9 +41,8 @@ public class NewTask extends Wizard {
 		String state = page.getState();
 		TaskBiz taskbiz = new TaskBizImpl();
 		//new a task
-		Task newTask = taskbiz.newTask(name, type, state, DisplayTasksAction.tree, DisplayTasksAction.allTask);
+		taskbiz.newTask(name, type, state, DisplayTasksAction.tree, DisplayTasksAction.allTask);
 		//refresh the viewPart
-		DisplayTasksAction.getTreeViewer().setInput(DisplayTasksAction.tree.getRoot());
 		return true;
 	}
 	//add page in the wizard

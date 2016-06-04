@@ -25,7 +25,6 @@ public class ChangeTypeAction implements IObjectActionDelegate{
 			String type = arg0.getText();
 			Task task = treebiz.getTaskBasedOnNode(DisplayTasksAction.tree, node, DisplayTasksAction.allTask);
 			taskbiz.changeType(task, DisplayTasksAction.allTask, type, DisplayTasksAction.tree);
-			DisplayTasksAction.getTreeViewer().setInput(DisplayTasksAction.tree.getRoot());
 		}
 	}
 

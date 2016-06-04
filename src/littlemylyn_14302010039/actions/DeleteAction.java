@@ -13,18 +13,23 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
-public  class ChangeStateAction implements IObjectActionDelegate {
+public class DeleteAction implements IObjectActionDelegate{
 	IStructuredSelection selection;
 	private TaskBiz taskbiz = new TaskBizImpl();
 	private TreeBiz treebiz = new TreeBizImpl();
 	@Override
 	public void run(IAction arg0) {
 		// TODO 自动生成的方法存根
+		
 		if(selection != null) {
 			TreeNode node = (TreeNode)selection.getFirstElement();
-			String state = arg0.getText();
 			Task task = treebiz.getTaskBasedOnNode(DisplayTasksAction.tree, node, DisplayTasksAction.allTask);
-			taskbiz.changeState(task, DisplayTasksAction.allTask, state, DisplayTasksAction.tree);
+			if(node.getFile() != null) {
+				taskbiz.deleteRelatedFile(task, node.getFile(), DisplayTasksAction.allTask, node);
+			}
+			else {
+				taskbiz.deleteTask(task, DisplayTasksAction.allTask, DisplayTasksAction.tree);
+			}
 		}
 	}
 
@@ -39,5 +44,6 @@ public  class ChangeStateAction implements IObjectActionDelegate {
 		// TODO 自动生成的方法存根
 		
 	}
+
 }
 

@@ -6,6 +6,7 @@ import org.eclipse.core.resources.IFile;
 
 import littlemylyn_14302010039.entity.Task;
 import littlemylyn_14302010039.entity.Tree;
+import littlemylyn_14302010039.entity.TreeNode;
 
 public interface TaskBiz {
 	//new a task
@@ -20,6 +21,10 @@ public interface TaskBiz {
 	public void changeState(Task task, ArrayList<Task> allTask, String state, Tree tree);
 	//add related file to the task
 	public void addRelatedFile(Task task, IFile file, ArrayList<Task> allTask);
+	//delete a related file
+	public void deleteRelatedFile(Task task, IFile file, ArrayList<Task> allTask, TreeNode node);
 	//get All task from dao
 	public ArrayList<Task> getAllTask();
+	//refresh the display
+	public void refresh();
 }

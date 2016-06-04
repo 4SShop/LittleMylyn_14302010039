@@ -47,4 +47,5 @@ public interface TreeBiz {
 	public Task getTaskBasedOnNode(Tree tree, TreeNode node, ArrayList<Task> allTask);
 	
 	public void deleteTask(Task task,Tree tree);
+	public void deleteNode(TreeNode node);
 }
