@@ -52,7 +52,6 @@ public class Task implements Serializable{
 	public void addFile(IFile file) {
 		relatedFiles.add(file);
 	}
-	
 	public void deleteFile(IFile file) {
 		relatedFiles.remove(file);
 	}
