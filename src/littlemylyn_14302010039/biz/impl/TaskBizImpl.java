@@ -3,6 +3,7 @@ package littlemylyn_14302010039.biz.impl;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.swt.widgets.Display;
 
 import littlemylyn_14302010039.actions.DisplayTasksAction;
 import littlemylyn_14302010039.biz.TaskBiz;
@@ -70,8 +71,10 @@ public class TaskBizImpl implements TaskBiz{
 	@Override
 	public void addRelatedFile(Task task, IFile file, ArrayList<Task> allTask) {
 		// TODO 自动生成的方法存根
+		TreeNode parent = new TreeBizImpl().TtoTN(task, DisplayTasksAction.tree);
 		task.addFile(file);
-		new TaskDaoImpl().saveTasks(allTask);
+		new TreeBizImpl().addClasses(parent, file);
+		//new TaskDaoImpl().saveTasks(allTask);
 		refresh();
 	}
 
@@ -84,15 +87,28 @@ public class TaskBizImpl implements TaskBiz{
 	@Override
 	public void refresh() {
 		// TODO 自动生成的方法存根
-		DisplayTasksAction.getTreeViewer().setInput(DisplayTasksAction.tree.getRoot());
-	}
+		
+		Display.getDefault().asyncExec(new Runnable(){
 
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				DisplayTasksAction.getTreeViewer().setInput(DisplayTasksAction.tree.getRoot());
+			}
+			
+		});
+		
+	}
 	@Override
-	public void deleteRelatedFile(Task task, IFile file, ArrayList<Task> allTask, TreeNode node) {
+	public void deleteRelatedFile(Task task, IFile file, ArrayList<Task> allTask) {
 		// TODO 自动生成的方法存根
+		TreeBizImpl tbl = new TreeBizImpl();
+		TreeNode treenode = tbl.TtoTN(task, DisplayTasksAction.tree);
 		task.getRelatedFiles().remove(file);
-		new TreeBizImpl().deleteNode(node);
-		new TaskDaoImpl().saveTasks(allTask);
+		tbl.deleteFileNode(treenode,file);
+		//tbl.deleteNode(treenode);
+		//allTask.remove(task);
+		//new TaskDaoImpl().saveTasks(allTask);
 		refresh();
 	}
 

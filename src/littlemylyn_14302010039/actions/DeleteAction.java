@@ -25,7 +25,7 @@ public class DeleteAction implements IObjectActionDelegate{
 			TreeNode node = (TreeNode)selection.getFirstElement();
 			Task task = treebiz.getTaskBasedOnNode(DisplayTasksAction.tree, node, DisplayTasksAction.allTask);
 			if(node.getFile() != null) {
-				taskbiz.deleteRelatedFile(task, node.getFile(), DisplayTasksAction.allTask, node);
+				taskbiz.deleteRelatedFile(task, node.getFile(), DisplayTasksAction.allTask);
 			}
 			else {
 				taskbiz.deleteTask(task, DisplayTasksAction.allTask, DisplayTasksAction.tree);

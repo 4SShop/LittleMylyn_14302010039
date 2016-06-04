@@ -22,7 +22,7 @@ public interface TaskBiz {
 	//add related file to the task
 	public void addRelatedFile(Task task, IFile file, ArrayList<Task> allTask);
 	//delete a related file
-	public void deleteRelatedFile(Task task, IFile file, ArrayList<Task> allTask, TreeNode node);
+	public void deleteRelatedFile(Task task, IFile file, ArrayList<Task> allTask);
 	//get All task from dao
 	public ArrayList<Task> getAllTask();
 	//refresh the display

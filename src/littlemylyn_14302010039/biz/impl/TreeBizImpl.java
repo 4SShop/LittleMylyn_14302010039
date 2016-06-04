@@ -71,7 +71,9 @@ public class TreeBizImpl implements TreeBiz {
 	@Override
 	public void addClasses(TreeNode node,IFile ifile) {
 		// TODO Auto-generated method stub
-		TreeNode classes=node.getChildren().get(2);
+		//TreeNode classes=node.getChildren().get(2);
+		TreeNode classes = node.getChildren().stream()
+				.filter(e -> e.getName().contains("related")).findFirst().orElse(null);
 		classes.addChild(new TreeNode(ifile.getName(),classes,null));
 	}
 
@@ -102,7 +104,17 @@ public class TreeBizImpl implements TreeBiz {
 		TreeNode node=TtoTN(task,tree);
 		tree.getRoot().removeChildren(node);
 	}
-	
+	@Override
+	public void deleteFileNode(TreeNode node, IFile file) {
+		// TODO 自动生成的方法存根
+		TreeNode files = node.getChildren().stream().filter(e -> e.getName().contains("related")).findFirst().orElse(null);
+		if(files != null && files.getChildren() != null) {
+			TreeNode target = files.getChildren().stream().filter(e -> (e.getFile() == file)).findFirst().orElse(null);
+			if(target != null) {
+				files.getChildren().remove(target);
+			}
+		}
+	}
 	@Override
 	public Task getTaskBasedOnNode(Tree tree, TreeNode node, ArrayList<Task> allTask) {
 		// TODO 自动生成的方法存根

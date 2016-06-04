@@ -48,4 +48,5 @@ public interface TreeBiz {
 	
 	public void deleteTask(Task task,Tree tree);
 	public void deleteNode(TreeNode node);
+	public void deleteFileNode(TreeNode node, IFile file);
 }

@@ -66,7 +66,8 @@ public class DisplayTasksAction extends ViewPart {
 		TaskBiz taskbiz = new TaskBizImpl();
 		TreeBiz treebiz = new TreeBizImpl();
 		allTask = taskbiz.getAllTask();
-		new ConnectTaskAction(allTask);
+		new ConnectTaskAction();
+		
 		tree = treebiz.newTree(allTask);
 	}
 	
