@@ -24,13 +24,12 @@ public class DeleteAction implements IObjectActionDelegate{
 		if(selection != null) {
 			TreeNode node = (TreeNode)selection.getFirstElement();
 			Task task = treebiz.getTaskBasedOnNode(DisplayTasksAction.tree, node, DisplayTasksAction.allTask);
-			if(node.getParent() != null && node.getParent().getName().contains("related")) {
-				if(node.getFile() != null) {
+			if(task != null) {
+				try{
 					taskbiz.deleteRelatedFile(task, node.getFile(), DisplayTasksAction.allTask);
+				}catch(NullPointerException ex) {
+					taskbiz.deleteTask(task, DisplayTasksAction.allTask, DisplayTasksAction.tree);
 				}
-			}
-			else {
-				taskbiz.deleteTask(task, DisplayTasksAction.allTask, DisplayTasksAction.tree);
 			}
 		}
 	}
@@ -46,6 +45,5 @@ public class DeleteAction implements IObjectActionDelegate{
 		// TODO 自动生成的方法存根
 
 	}
-
 }
 
