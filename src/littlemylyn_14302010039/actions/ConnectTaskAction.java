@@ -92,11 +92,12 @@ public class ConnectTaskAction {
 												tasks = null;
 											}else{
 												newFile = (IFile)delta.getResource();
+												tasks = null;
 											}
+										}else{
+										
+											connect((IFile)delta.getResource());
 										}
-										
-										
-										connect((IFile)delta.getResource());
 									} 
 									break; 
 								case IResourceDelta.REMOVED: 
