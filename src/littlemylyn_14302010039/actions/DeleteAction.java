@@ -20,12 +20,14 @@ public class DeleteAction implements IObjectActionDelegate{
 	@Override
 	public void run(IAction arg0) {
 		// TODO 自动生成的方法存根
-		
+
 		if(selection != null) {
 			TreeNode node = (TreeNode)selection.getFirstElement();
 			Task task = treebiz.getTaskBasedOnNode(DisplayTasksAction.tree, node, DisplayTasksAction.allTask);
-			if(node.getFile() != null) {
-				taskbiz.deleteRelatedFile(task, node.getFile(), DisplayTasksAction.allTask);
+			if(node.getParent() != null && node.getParent().getName().contains("related")) {
+				if(node.getFile() != null) {
+					taskbiz.deleteRelatedFile(task, node.getFile(), DisplayTasksAction.allTask);
+				}
 			}
 			else {
 				taskbiz.deleteTask(task, DisplayTasksAction.allTask, DisplayTasksAction.tree);
@@ -42,7 +44,7 @@ public class DeleteAction implements IObjectActionDelegate{
 	@Override
 	public void setActivePart(IAction arg0, IWorkbenchPart arg1) {
 		// TODO 自动生成的方法存根
-		
+
 	}
 
 }

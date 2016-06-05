@@ -53,17 +53,21 @@ public class TaskBizImpl implements TaskBiz{
 	@Override
 	public void changeState(Task task, ArrayList<Task> allTask, String state,Tree tree) {
 		// TODO 自动生成的方法存根
-		if(state.equals("Activated")){
+		TreeBizImpl biz = new TreeBizImpl();
+		if(state.equals("Activated")) {
 			allTask.stream().
 			filter((p)->(p.getState().equals("Activated"))).
-			forEach((p)->p.setState("Finished"));
+			forEach((p)-> {
+				p.setState("Finished");
+				biz.changeState(biz.TtoTN(p, tree), "Finished");
+			});
 		}
-		else if(state.equals("New")){
+		else if(state.equals("New")) {
 			return;
 		}
 		TreeNode node=new TreeBizImpl().TtoTN(task, tree);
 		task.setState(state);
-		new TreeBizImpl().changeState(node, state);
+		biz.changeState(node, state);
 		new TaskDaoImpl().saveTasks(allTask);
 		refresh();
 	}
@@ -73,7 +77,7 @@ public class TaskBizImpl implements TaskBiz{
 		// TODO 自动生成的方法存根
 		TreeNode parent = new TreeBizImpl().TtoTN(task, DisplayTasksAction.tree);
 		task.addFile(file);
-		new TreeBizImpl().addClasses(parent, file);
+		new TreeBizImpl().addClasses(parent, file, task);
 		new TaskDaoImpl().saveTasks(allTask);
 		refresh();
 	}
@@ -106,12 +110,9 @@ public class TaskBizImpl implements TaskBiz{
 		// TODO 自动生成的方法存根
 		TreeBizImpl tbl = new TreeBizImpl();
 		TreeNode treenode = tbl.TtoTN(task, DisplayTasksAction.tree);
-		task.getRelatedFiles().remove(file);
-		tbl.deleteFileNode(treenode,file);
-		//tbl.deleteNode(treenode);
-		//allTask.remove(task);
+		task.deleteFile(file);
+		tbl.deleteFileNode(treenode, file.getName(), task);
 		new TaskDaoImpl().saveTasks(allTask);
 		refresh();
 	}
-
 }

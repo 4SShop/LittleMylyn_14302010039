@@ -35,7 +35,7 @@ public interface TreeBiz {
 	//add new tasks
 	public void addTask(Task task,Tree tree);
 	//add new classes
-	public void addClasses(TreeNode node,IFile ifile);
+	public void addClasses(TreeNode node, IFile ifile, Task task);
 	//change state
 	public void changeState(TreeNode node,String state);
 	//change type
@@ -48,5 +48,5 @@ public interface TreeBiz {
 	
 	public void deleteTask(Task task,Tree tree);
 	public void deleteNode(TreeNode node);
-	public void deleteFileNode(TreeNode node, IFile file);
+	public void deleteFileNode(TreeNode node, String name, Task task);
 }

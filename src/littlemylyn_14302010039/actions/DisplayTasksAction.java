@@ -52,7 +52,16 @@ public class DisplayTasksAction extends ViewPart {
 	public static Tree tree;
 	private static TreeViewer viewer;
 	private Action doubleClickAction;
+	private ISelectionListener listener = new ISelectionListener() {
 
+		@Override
+		public void selectionChanged(IWorkbenchPart arg0, ISelection arg1) {
+			// TODO 自动生成的方法存根
+			if(arg0 != DisplayTasksAction.this) {
+				viewer.setInput(DisplayTasksAction.tree.getRoot());
+			}
+		}
+	};
 	/*
 	 * The content provider class is responsible for
 	 * providing objects to the view. It can wrap
@@ -67,10 +76,9 @@ public class DisplayTasksAction extends ViewPart {
 		TreeBiz treebiz = new TreeBizImpl();
 		allTask = taskbiz.getAllTask();
 		new ConnectTaskAction();
-		
 		tree = treebiz.newTree(allTask);
 	}
-	
+
 	/**
 	 * The constructor.
 	 */
@@ -87,12 +95,11 @@ public class DisplayTasksAction extends ViewPart {
 	 */
 	public void createPartControl(Composite parent) {
 		TreeNode root = tree.getRoot();
-		
 		viewer = new TreeViewer(parent);
 		viewer.setContentProvider(new MyContentProvider());
 		viewer.setLabelProvider(new MyLableProvider());
 		viewer.setInput(root);
-
+		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(listener);
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "view.viewer");
 		makeActions();
@@ -124,11 +131,11 @@ public class DisplayTasksAction extends ViewPart {
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
-		
+
 	}
-	
+
 	private void fillLocalToolBar(IToolBarManager manager) {
-		
+
 	}
 
 	private void makeActions() {
@@ -138,10 +145,10 @@ public class DisplayTasksAction extends ViewPart {
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
 				TreeNode node = (TreeNode)obj;
 				if(node.getFile() != null) {
-//					IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject("1");
-//					System.out.println("The full path:" + project.getFullPath());
 					IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 					IFile file = node.getFile();
+					System.out.println(file.getName());
+					System.out.println(file.getFullPath());
 					try {
 						IDE.openEditor(page, file);
 					} catch (PartInitException e) {
@@ -149,7 +156,6 @@ public class DisplayTasksAction extends ViewPart {
 						System.out.println("wrong");
 					}
 				}
-				
 			}
 		};
 	}
@@ -168,7 +174,7 @@ public class DisplayTasksAction extends ViewPart {
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}
-	
+
 	public static TreeViewer getTreeViewer() {
 		return viewer;
 	}

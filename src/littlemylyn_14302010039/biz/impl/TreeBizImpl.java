@@ -61,7 +61,7 @@ public class TreeBizImpl implements TreeBiz {
 		root.addChild(node);
 		node.addChild(new TreeNode(task.getState(), node, null));
 		node.addChild(new TreeNode(task.getType(), node, null));
-		TreeNode classes = new TreeNode("related class("+task.getRelatedFiles().size()+")",node,null);
+		TreeNode classes = new TreeNode("related class(" + task.getRelatedFiles().size() + ")",node,null);
 		node.addChild(classes);
 		for(IFile ifile:task.getRelatedFiles()){
 			classes.addChild(new TreeNode(ifile.getName(), classes, null, ifile));
@@ -69,11 +69,11 @@ public class TreeBizImpl implements TreeBiz {
 	}
 
 	@Override
-	public void addClasses(TreeNode node,IFile ifile) {
+	public void addClasses(TreeNode node, IFile ifile, Task task) {
 		// TODO Auto-generated method stub
-		//TreeNode classes=node.getChildren().get(2);
 		TreeNode classes = node.getChildren().stream()
 				.filter(e -> e.getName().contains("related")).findFirst().orElse(null);
+		classes.setName("related class(" + task.getRelatedFiles().size() + ")");
 		classes.addChild(new TreeNode(ifile.getName(),classes,null));
 	}
 
@@ -105,15 +105,18 @@ public class TreeBizImpl implements TreeBiz {
 		tree.getRoot().removeChildren(node);
 	}
 	@Override
-	public void deleteFileNode(TreeNode node, IFile file) {
+	public void deleteFileNode(TreeNode node, String name, Task task) {
 		// TODO 自动生成的方法存根
 		TreeNode files = node.getChildren().stream().filter(e -> e.getName().contains("related")).findFirst().orElse(null);
 		if(files != null && files.getChildren() != null) {
-			TreeNode target = files.getChildren().stream().filter(e -> (e.getFile() == file)).findFirst().orElse(null);
+			files.getChildren().stream().forEach(e-> System.out.println(e.getName()));
+			TreeNode target = files.getChildren().stream().filter(e -> e.getName().equals(name)).findFirst().orElse(null);
 			if(target != null) {
 				files.getChildren().remove(target);
+				files.setName("related class(" + task.getRelatedFiles().size() + ")");
 			}
 		}
+		
 	}
 	@Override
 	public Task getTaskBasedOnNode(Tree tree, TreeNode node, ArrayList<Task> allTask) {
