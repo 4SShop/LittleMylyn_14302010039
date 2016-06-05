@@ -9,7 +9,7 @@ A plug-in of eclipse used to manage tasks during development
 5.当一个已经建立过关联类的task再次处于Activated的时候，task下会出现相关联的类名，并且可以打开  
 
 分工：  
-魏子耘：
+魏子耘：  
 林航宇：将有关文件与相关的task关联  
 梁旭：实体类以及dao层的实现  
 朱潇：biz层的实现以及文档的撰写  
