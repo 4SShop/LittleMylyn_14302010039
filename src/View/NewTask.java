@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import littlemylyn_14302010039.actions.DisplayTasksAction;
 import littlemylyn_14302010039.biz.TaskBiz;
 import littlemylyn_14302010039.biz.impl.TaskBizImpl;
+import littlemylyn_14302010039.entity.Task;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
