@@ -17,10 +17,14 @@ public class TaskBizImpl implements TaskBiz{
 	@Override
 	public Task newTask(String name, String type, String state, Tree tree, ArrayList<Task> allTask) {
 		// TODO 自动生成的方法存根
-		Task task = new Task(name, type, "");
+		Task task = new Task(name, type, state);
 		new TreeBizImpl().addTask(task, tree);
 		allTask.add(task);
-		changeState(task, allTask, state, tree);
+		if(state.equals("Activated")) {
+			changeState(task, allTask, state, tree);
+		}
+		new TaskDaoImpl().saveTasks(allTask);
+		refresh();
 		return task;
 	}
 
