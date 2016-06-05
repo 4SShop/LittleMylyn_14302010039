@@ -41,10 +41,17 @@ public class NewTask extends Wizard {
 		String type = page.getType();
 		String state = page.getState();
 		TaskBiz taskbiz = new TaskBizImpl();
-		//new a task
-		taskbiz.newTask(name, type, state, DisplayTasksAction.tree, DisplayTasksAction.allTask);
-		//refresh the viewPart
-		return true;
+		
+		if(DisplayTasksAction.allTask.stream().filter(e -> e.getName().equals(name)).findFirst().orElse(null) == null) {
+			//new a task
+			taskbiz.newTask(name, type, state, DisplayTasksAction.tree, DisplayTasksAction.allTask);
+			//refresh the viewPart
+			return true;
+		}
+		else {
+			return false;
+		}
+		
 	}
 	//add page in the wizard
 	public void addPages() {
