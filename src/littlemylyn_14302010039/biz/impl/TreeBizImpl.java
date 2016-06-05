@@ -22,8 +22,8 @@ public class TreeBizImpl implements TreeBiz {
 	
 	@Override
 	public Tree newTree(ArrayList<Task> allTask){
-		TreeNode root=new TreeNode(null,null,null);
-		Tree tree=new Tree(root);
+		TreeNode root = new TreeNode(null,null,null);
+		Tree tree = new Tree(root);
 		allTask.stream().forEach((p)->addTask(p,tree));
 		return tree;
 	}
@@ -61,10 +61,10 @@ public class TreeBizImpl implements TreeBiz {
 		root.addChild(node);
 		node.addChild(new TreeNode(task.getState(), node, null));
 		node.addChild(new TreeNode(task.getType(), node, null));
-		TreeNode classes=new TreeNode("related class("+task.getRelatedFiles().size()+")",node,null);
+		TreeNode classes = new TreeNode("related class("+task.getRelatedFiles().size()+")",node,null);
 		node.addChild(classes);
 		for(IFile ifile:task.getRelatedFiles()){
-			classes.addChild(new TreeNode(ifile.getName(),classes,null));
+			classes.addChild(new TreeNode(ifile.getName(), classes, null, ifile));
 		}
 	}
 
