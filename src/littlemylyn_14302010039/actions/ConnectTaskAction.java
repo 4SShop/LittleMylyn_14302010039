@@ -77,7 +77,11 @@ public class ConnectTaskAction {
 								switch(delta.getKind()) 
 								{ 
 								case IResourceDelta.ADDED: 
-									if(delta.getResource() instanceof IFile ){ 
+									if(delta.getResource() instanceof IFile ){
+										String name =( (IFile)delta.getResource()).getName();
+										if(name.contains(".class")){
+											return true;
+										}
 										if((delta.getFlags()&IResourceDelta.MOVED_FROM) !=0){
 											if(oldFile != null){
 												tasks.forEach(e->{
@@ -90,10 +94,8 @@ public class ConnectTaskAction {
 												newFile = (IFile)delta.getResource();
 											}
 										}
-										String name =( (IFile)delta.getResource()).getName();
-										if(name.contains(".class")){
-											return true;
-										}
+										
+										
 										connect((IFile)delta.getResource());
 									} 
 									break; 
