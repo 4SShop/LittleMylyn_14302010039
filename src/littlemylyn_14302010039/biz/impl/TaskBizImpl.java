@@ -75,6 +75,8 @@ public class TaskBizImpl implements TaskBiz{
 	public void addRelatedFile(Task task, IFile file, ArrayList<Task> allTask) {
 		// TODO 自动生成的方法存根
 		TreeNode parent = new TreeBizImpl().TtoTN(task, DisplayTasksAction.tree);
+		System.out.println("refactor:"+file.getName());
+		System.out.println("refactor:"+file.getFullPath());
 		task.addFile(file);
 		new TreeBizImpl().addClasses(parent, file, task);
 		new TaskDaoImpl().saveTasks(allTask);
