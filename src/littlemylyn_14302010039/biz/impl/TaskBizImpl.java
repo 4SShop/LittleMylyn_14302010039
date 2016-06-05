@@ -74,7 +74,7 @@ public class TaskBizImpl implements TaskBiz{
 		TreeNode parent = new TreeBizImpl().TtoTN(task, DisplayTasksAction.tree);
 		task.addFile(file);
 		new TreeBizImpl().addClasses(parent, file);
-		//new TaskDaoImpl().saveTasks(allTask);
+		new TaskDaoImpl().saveTasks(allTask);
 		refresh();
 	}
 
@@ -94,6 +94,7 @@ public class TaskBizImpl implements TaskBiz{
 			public void run() {
 				// TODO Auto-generated method stub
 				DisplayTasksAction.getTreeViewer().setInput(DisplayTasksAction.tree.getRoot());
+				System.out.println("set view");
 			}
 			
 		});
@@ -108,7 +109,7 @@ public class TaskBizImpl implements TaskBiz{
 		tbl.deleteFileNode(treenode,file);
 		//tbl.deleteNode(treenode);
 		//allTask.remove(task);
-		//new TaskDaoImpl().saveTasks(allTask);
+		new TaskDaoImpl().saveTasks(allTask);
 		refresh();
 	}
 

@@ -1,42 +1,28 @@
 package littlemylyn_14302010039.actions;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
+
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IEditorReference;
+
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IObjectActionDelegate;
+
 import org.eclipse.ui.IPartListener;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IViewSite;
-import org.eclipse.ui.IWindowListener;
+
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchListener;
+
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.navigator.CommonNavigator;
-import org.eclipse.ui.texteditor.ITextEditor;
-import org.eclipse.jface.text.*;
-
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.util.ArrayList;
 
 import org.eclipse.core.resources.*;
-import org.eclipse.jface.action.*;
+
 
 import littlemylyn_14302010039.biz.impl.TaskBizImpl;
 import littlemylyn_14302010039.entity.Task;
-import littlemylyn_14302010039.entity.TreeNode;
 public class ConnectTaskAction {
-	IStructuredSelection selection;
+	
+	
+	//IStructuredSelection selection;
 	//ArrayList<Task> allTasks;
 	//private ArrayList<DocumentListener> documentListeners;
 	public ConnectTaskAction(){
@@ -143,7 +129,11 @@ public class ConnectTaskAction {
              return;
         }
 		if(task.getRelatedFiles().contains(file)){
+			 
 			new TaskBizImpl().deleteRelatedFile(task, file, DisplayTasksAction.allTask);
+			 for(IFile tmp : task.getRelatedFiles()){
+	            	System.out.println("tmp " + tmp.getName());
+	            }
 			//task.deleteFile(file);
 			System.out.println("delete success" + file.getName());
 		}
@@ -160,8 +150,10 @@ public class ConnectTaskAction {
         }
         if(task.getRelatedFiles().contains(original)){
         	System.out.println("success c"+original.getName());
+        	 
         	return;
         }
+      
         new TaskBizImpl().addRelatedFile(task, original, DisplayTasksAction.allTask);
         //task.addFile(original);
         System.out.println("success1"+original.getName());
@@ -184,6 +176,7 @@ public class ConnectTaskAction {
             	System.out.println("success c"+original.getName());
             	return;
             }
+           
             new TaskBizImpl().addRelatedFile(task, original, DisplayTasksAction.allTask);
             System.out.println("succes2s"+original.getName());
             /*
@@ -213,7 +206,7 @@ public class ConnectTaskAction {
 	public Task findActivatedTask(){
 		if(DisplayTasksAction.allTask != null){
 			for (Task tmp : DisplayTasksAction.allTask){
-				System.out.println("aaaa");
+				//System.out.println("aaaa");
 				if(tmp.getState().equals(Task.ACTIVATED)){
 				
 					return tmp;
