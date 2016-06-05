@@ -8,3 +8,13 @@ A plug-in of eclipse used to manage tasks during development
 4.当一个task处于Activated状态时，打开或修改一些class的时候将会将其与该task相关联  
 5.当一个已经建立过关联类的task再次处于Activated的时候，task下会出现相关联的类名，并且可以打开  
 
+分工：  
+魏子耘：
+林航宇：将有关文件与相关的task关联  
+梁旭：实体类以及dao层的实现  
+朱潇：biz层的实现以及文档的撰写  
+
+对eclipse可扩展性的理解：  
+Eclipse是一个开放源代码的、基于 Java 的可扩展开发平台。就其本身而言，它只是一个框架和一组服务，用于通过插件组件构建开发环境。换句话说，Eclipse 本身就是一系列的插件 
+因此，eclipse具有极强的可扩展性，通过大量的可扩展点的提供，允许用户构建与 Eclipse 环境无缝集成的插件  
+每当Eclipse 插件实现了一个扩展点，就创建了一个扩展，此外，扩展还可以创建自己的扩展点。这种插件模式的扩展和扩展点是递归的，因此被认为是非常灵活的。
