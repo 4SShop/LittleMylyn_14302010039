@@ -87,18 +87,19 @@ public class TaskBizImpl implements TaskBiz{
 	@Override
 	public void refresh() {
 		// TODO 自动生成的方法存根
-		
+
 		Display.getDefault().asyncExec(new Runnable(){
 
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				DisplayTasksAction.getTreeViewer().setInput(DisplayTasksAction.tree.getRoot());
-				System.out.println("set view");
+				if(DisplayTasksAction.getTreeViewer() != null) {
+					DisplayTasksAction.getTreeViewer().setInput(DisplayTasksAction.tree.getRoot());
+				}
 			}
-			
+
 		});
-		
+
 	}
 	@Override
 	public void deleteRelatedFile(Task task, IFile file, ArrayList<Task> allTask) {
