@@ -109,7 +109,7 @@ public class TreeBizImpl implements TreeBiz {
 		// TODO 自动生成的方法存根
 		TreeNode files = node.getChildren().stream().filter(e -> e.getName().contains("related")).findFirst().orElse(null);
 		if(files != null && files.getChildren() != null) {
-			files.getChildren().stream().forEach(e-> System.out.println(e.getName()));
+			
 			TreeNode target = files.getChildren().stream().filter(e -> e.getName().equals(name)).findFirst().orElse(null);
 			if(target != null) {
 				files.getChildren().remove(target);

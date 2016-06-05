@@ -67,7 +67,7 @@ public class ConnectTaskAction {
 						IResourceDelta delta = arg0.getDelta();
 						IResourceDeltaVisitor visitor = new IResourceDeltaVisitor() 
 						{ 
-							//boolean flag;
+							
 							ArrayList<Task> tasks;
 							IFile oldFile;
 							IFile newFile;
@@ -76,12 +76,16 @@ public class ConnectTaskAction {
 								
 								switch(delta.getKind()) 
 								{ 
+								//check the event type
 								case IResourceDelta.ADDED: 
 									if(delta.getResource() instanceof IFile ){
-										String name =( (IFile)delta.getResource()).getName();
+										
+										String name =((IFile)delta.getResource()).getName();
 										if(name.contains(".class")){
 											return true;
 										}
+										//for move or rename event
+										//avoid the add and remove event happen in false order
 										if((delta.getFlags()&IResourceDelta.MOVED_FROM) !=0){
 											if(oldFile != null){
 												tasks.forEach(e->{
@@ -95,11 +99,11 @@ public class ConnectTaskAction {
 												tasks = null;
 											}
 										}
-										
-											connect((IFile)delta.getResource());
+										connect((IFile)delta.getResource());
 										
 									} 
 									break; 
+									//the remove event and 
 								case IResourceDelta.REMOVED: 
 									if(delta.getResource() instanceof IFile ){
 										if((delta.getFlags()&IResourceDelta.MOVED_TO)!= 0){
@@ -147,6 +151,7 @@ public class ConnectTaskAction {
 			.forEach(p ->  new TaskBizImpl().deleteRelatedFile(p, file, DisplayTasksAction.allTask) );
 		}
 	}
+	//the method is similar with the below one so just write one comment
 	public void connect(IFile original,Task task){
 		
 		if(task == null){
@@ -155,9 +160,14 @@ public class ConnectTaskAction {
 		if(original == null){
 			return;
 		}
+		//if file is not accessible just return do not add
+		if(!original.isAccessible()){
+			return;
+		}
 		if(task.getRelatedFiles().contains(original)){
 			return;
 		}
+		//add the file 
 		new TaskBizImpl().addRelatedFile(task, original, DisplayTasksAction.allTask);
 	}
 	public void connect(IFile original){
@@ -166,6 +176,10 @@ public class ConnectTaskAction {
 			return;
 		}
 		if(original == null){
+			return;
+		}
+		
+		if(!original.isAccessible()){
 			return;
 		}
 		if(task.getRelatedFiles().contains(original)){
@@ -185,30 +199,15 @@ public class ConnectTaskAction {
 					if(original == null){
 						return;
 					}
+					if(!original.isAccessible()){
+						System.out.println("access");
+						return;
+					}
 					if(task.getRelatedFiles().contains(original)){
 						return;
 					}
 					new TaskBizImpl().addRelatedFile(task, original, DisplayTasksAction.allTask);
-					/*
-					 * if modified the class and add it use this
-					 */
-					/*
-            if(((IEditorPart) part).isDirty()){
-            	Task task = findActivatedTask();
-    			IEditorInput input = ((IEditorPart) part).getEditorInput();
-    			IFile original= (input instanceof IFileEditorInput) ?
-    					((IFileEditorInput) input).getFile() : null;
-                if(original == null){
-                    //System.out.println("no file");
-                     return;
-                }
-                if(task.getRelatedFiles().contains(original)){
-                	System.out.println("success c"+original.getName());
-                	return;
-                }
-                task.addFile(original);
-                System.out.println("success"+original.getName());
-            }*/
+					
 		}
 	}
 	public Task findActivatedTask(){
