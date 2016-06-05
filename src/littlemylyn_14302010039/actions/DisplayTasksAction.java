@@ -147,8 +147,6 @@ public class DisplayTasksAction extends ViewPart {
 				if(node.getFile() != null) {
 					IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 					IFile file = node.getFile();
-					System.out.println(file.getName());
-					System.out.println(file.getFullPath());
 					try {
 						IDE.openEditor(page, file);
 					} catch (PartInitException e) {
