@@ -74,7 +74,7 @@ public class TreeBizImpl implements TreeBiz {
 		TreeNode classes = node.getChildren().stream()
 				.filter(e -> e.getName().contains("related")).findFirst().orElse(null);
 		classes.setName("related class(" + task.getRelatedFiles().size() + ")");
-		classes.addChild(new TreeNode(ifile.getName(),classes,null));
+		classes.addChild(new TreeNode(ifile.getName(), classes, null, ifile));
 	}
 
 	@Override

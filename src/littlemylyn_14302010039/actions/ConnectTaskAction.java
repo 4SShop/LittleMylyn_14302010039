@@ -85,7 +85,7 @@ public class ConnectTaskAction {
 										if((delta.getFlags()&IResourceDelta.MOVED_FROM) !=0){
 											if(oldFile != null){
 												tasks.forEach(e->{
-													connect((IFile)delta.getResource(),e);
+													connect((IFile)delta.getResource(), e);
 												});
 												oldFile = null;
 												newFile = null;
