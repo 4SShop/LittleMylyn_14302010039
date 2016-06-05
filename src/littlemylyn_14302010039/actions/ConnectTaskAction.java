@@ -14,6 +14,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
+import java.util.ArrayList;
+
 import org.eclipse.core.resources.*;
 
 
@@ -65,12 +67,29 @@ public class ConnectTaskAction {
 						IResourceDelta delta = arg0.getDelta();
 						IResourceDeltaVisitor visitor = new IResourceDeltaVisitor() 
 						{ 
+							//boolean flag;
+							ArrayList<Task> tasks;
+							IFile oldFile;
+							IFile newFile;
 							public boolean visit(IResourceDelta delta) 
 							{ 
+								
 								switch(delta.getKind()) 
 								{ 
 								case IResourceDelta.ADDED: 
 									if(delta.getResource() instanceof IFile ){ 
+										if((delta.getFlags()&IResourceDelta.MOVED_FROM) !=0){
+											if(oldFile != null){
+												tasks.forEach(e->{
+													connect((IFile)delta.getResource(),e);
+												});
+												oldFile = null;
+												newFile = null;
+												tasks = null;
+											}else{
+												newFile = (IFile)delta.getResource();
+											}
+										}
 										String name =( (IFile)delta.getResource()).getName();
 										if(name.contains(".class")){
 											return true;
@@ -80,7 +99,27 @@ public class ConnectTaskAction {
 									break; 
 								case IResourceDelta.REMOVED: 
 									if(delta.getResource() instanceof IFile ){
+										if((delta.getFlags()&IResourceDelta.MOVED_TO)!= 0){
+											if(newFile == null){
+												tasks = new ArrayList<>();
+												DisplayTasksAction.allTask.stream().forEach(e->{
+													if(e.getRelatedFiles().contains((IFile)delta.getResource())){
+														tasks.add(e);
+													}
+												});
+												oldFile = (IFile)delta.getResource();
+											}else{
+												DisplayTasksAction.allTask.stream().forEach(e->{
+													if(e.getRelatedFiles().contains((IFile)delta.getResource())){
+														connect(newFile,e);
+													}
+												});
+												oldFile = null;
+												newFile = null;
+											}
+										}
 										delete((IFile)delta.getResource());
+										
 									} 
 									break; 
 								} 
@@ -102,8 +141,21 @@ public class ConnectTaskAction {
 	public void delete(IFile file){
 		if(DisplayTasksAction.allTask != null) {
 			DisplayTasksAction.allTask.stream()
-			.forEach(p -> (new TaskBizImpl().deleteRelatedFile(p, file, DisplayTasksAction.allTask)));
+			.forEach(p ->  new TaskBizImpl().deleteRelatedFile(p, file, DisplayTasksAction.allTask) );
 		}
+	}
+	public void connect(IFile original,Task task){
+		
+		if(task == null){
+			return;
+		}
+		if(original == null){
+			return;
+		}
+		if(task.getRelatedFiles().contains(original)){
+			return;
+		}
+		new TaskBizImpl().addRelatedFile(task, original, DisplayTasksAction.allTask);
 	}
 	public void connect(IFile original){
 		Task task = findActivatedTask();
