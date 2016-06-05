@@ -1,15 +1,21 @@
 package littlemylyn_14302010039.entity;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
 
-public class Task {
+public class Task implements Serializable{
+	public static String ACTIVATED = "Activated";
+	public static String NEW = "New";
+	public static String FINISHED = "Finished";
 	private String type;
 	private String state;
 	private String name;
-	private ArrayList<IFile> relatedFiles = new ArrayList<>();
+	private ArrayList<String> relatedFiles = new ArrayList<>();
 	public Task(String name, String type, String state) {
 		this.name = name;
 		this.setType(type);
@@ -46,10 +52,18 @@ public class Task {
 	 * @return hashMap
 	 */
 	public void addFile(IFile file) {
-		relatedFiles.add(file);
+		relatedFiles.add(file.getFullPath().toOSString());
 	}
 	
 	public void deleteFile(IFile file) {
-		relatedFiles.remove(file);
+		relatedFiles.remove(file.getFullPath().toOSString());
+	}
+	public ArrayList<IFile> getRelatedFiles() {
+		ArrayList<IFile> iFiles = new ArrayList<IFile>();
+		for(int i=0;i<relatedFiles.size();i++){
+			IFile temp = ResourcesPlugin.getWorkspace().getRoot().getFile(Path.fromOSString(relatedFiles.get(i)));
+			iFiles.add(temp);
+		}
+		return iFiles;
 	}
 }

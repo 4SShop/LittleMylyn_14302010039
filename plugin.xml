@@ -79,6 +79,10 @@
 	     		label="change state"
 	     		id="state">
 	     	</menu>
+	     	<menu 
+	     		label="delete"
+	     		id="delete">
+	     	</menu>
 	      	<action 
 	            class="littlemylyn_14302010039.actions.ChangeTypeAction"
 	            enablesFor="+"
@@ -87,14 +91,14 @@
 	            menubarPath="type/additions"> 
 	      	</action> 
 	      	<action 
-	            class="littlemylyn_14302010039.actions.ChangeTypeActionn"
+	            class="littlemylyn_14302010039.actions.ChangeTypeAction"
 	            enablesFor="+"
 	            id="littlemylyn_14302010039.actions.ChangeTypeAction.feature"
 	            label="new feature"
 	            menubarPath="type/additions"> 
 	      	</action> 
 	      	<action 
-	            class="littlemylyn_14302010039.actions.ChangeTypeActionn"
+	            class="littlemylyn_14302010039.actions.ChangeTypeAction"
 	            enablesFor="+"
 	            id="littlemylyn_14302010039.actions.ChangeTypeAction.refactor"
 	            label="refactor"
@@ -120,6 +124,12 @@
 	            id="littlemylyn_14302010039.actions.ChangeStateAction.Finished"
 	            label="Finished"
 	            menubarPath="state/additions"> 
+	      	</action> 
+	      	<action 
+	            class="littlemylyn_14302010039.actions.DeleteAction"
+	            id="littlemylyn_14302010039.actions.DeleteAction.delete"
+	            label="delete"
+	            menubarPath="additions"> 
 	      	</action> 
 	   </objectContribution> 
 	 </extension> 

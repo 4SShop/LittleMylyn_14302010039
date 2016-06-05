@@ -2,8 +2,10 @@ package View;
 
 import java.util.ArrayList;
 
+import littlemylyn_14302010039.actions.DisplayTasksAction;
 import littlemylyn_14302010039.biz.TaskBiz;
 import littlemylyn_14302010039.biz.impl.TaskBizImpl;
+import littlemylyn_14302010039.entity.Task;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
@@ -38,7 +40,18 @@ public class NewTask extends Wizard {
 		String name = page.getTaskName();
 		String type = page.getType();
 		String state = page.getState();
-		return true;
+		TaskBiz taskbiz = new TaskBizImpl();
+		
+		if(DisplayTasksAction.allTask.stream().filter(e -> e.getName().equals(name)).findFirst().orElse(null) == null) {
+			//new a task
+			taskbiz.newTask(name, type, state, DisplayTasksAction.tree, DisplayTasksAction.allTask);
+			//refresh the viewPart
+			return true;
+		}
+		else {
+			return false;
+		}
+		
 	}
 	//add page in the wizard
 	public void addPages() {
@@ -56,7 +69,7 @@ class TaskPage extends WizardPage {
 	TaskPage(ISelection selection) {
 		super(NewTask.page1, "New a task：", ImageDescriptor.createFromFile(TaskPage.class, "q.gif"));
 		this.setMessage("Create a new task for your project!");
-		this.selection = selection;
+		this.setSelection(selection);
 		setPageComplete(false);
 	}
 
@@ -132,6 +145,20 @@ class TaskPage extends WizardPage {
 	}
 	public String getTaskName() {
 		return name.getText();
+	}
+
+	/**
+	 * @return selection
+	 */
+	public ISelection getSelection() {
+		return selection;
+	}
+
+	/**
+	 * @param selection 要设置的 selection
+	 */
+	public void setSelection(ISelection selection) {
+		this.selection = selection;
 	} 
 
 }

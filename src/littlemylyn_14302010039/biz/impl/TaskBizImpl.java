@@ -3,63 +3,119 @@ package littlemylyn_14302010039.biz.impl;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.swt.widgets.Display;
+
+import littlemylyn_14302010039.actions.DisplayTasksAction;
 import littlemylyn_14302010039.biz.TaskBiz;
+import littlemylyn_14302010039.dao.impl.TaskDaoImpl;
 import littlemylyn_14302010039.entity.Task;
+import littlemylyn_14302010039.entity.Tree;
+import littlemylyn_14302010039.entity.TreeNode;
 
 public class TaskBizImpl implements TaskBiz{
 
 	@Override
-	public Task newTask(String name, String type, String state) {
+	public Task newTask(String name, String type, String state, Tree tree, ArrayList<Task> allTask) {
 		// TODO 自动生成的方法存根
-		Task task=new Task(name,type,state);
+		Task task = new Task(name, type, state);
+		new TreeBizImpl().addTask(task, tree);
+		allTask.add(task);
+		if(state.equals("Activated")) {
+			changeState(task, allTask, state, tree);
+		}
+		new TaskDaoImpl().saveTasks(allTask);
+		refresh();
 		return task;
 	}
 
 	@Override
 	public Task getTask(String name, ArrayList<Task> allTask) {
 		// TODO 自动生成的方法存根
-		for(Task task: allTask){
-			if(task.getName().equals(name)){
-				return task;
-			}
-		}
-		return null;
+		return allTask.stream().filter((p)->(p.getName().equals(name))).findFirst().orElse(null);
 	}
 
 	@Override
-	public void deleteTask(String name, ArrayList<Task> allTask) {
+	public void deleteTask(Task task, ArrayList<Task> allTask, Tree tree) {
 		// TODO 自动生成的方法存根
-		for(Task task: allTask){
-			if(task.getName().equals(name)){
-				allTask.remove(task);
-			}
-		}
+		new TreeBizImpl().deleteTask(task, tree);
+		allTask.remove(task);
+		new TaskDaoImpl().saveTasks(allTask);
+		refresh();
 	}
 
 	@Override
-	public void changeType(String name, String type, ArrayList<Task> allTask) {
+	public void changeType(Task task, ArrayList<Task> allTask, String type, Tree tree) {
 		// TODO 自动生成的方法存根
-		for(Task task: allTask){
-			if(task.getName().equals(name)){
-				task.setType(type);
-			}
-		}
+		TreeNode node=new TreeBizImpl().TtoTN(task, tree);
+		task.setType(type);
+		new TreeBizImpl().changeType(node, type);
+		new TaskDaoImpl().saveTasks(allTask);
+		refresh();
 	}
 
 	@Override
-	public void changeState(String name, String state, ArrayList<Task> allTask) {
+	public void changeState(Task task, ArrayList<Task> allTask, String state,Tree tree) {
 		// TODO 自动生成的方法存根
-		for(Task task: allTask){
-			if(task.getName().equals(name)){
-				task.setState(state);
-			}
+		TreeBizImpl biz = new TreeBizImpl();
+		if(state.equals("Activated")) {
+			allTask.stream().
+			filter((p)->(p.getState().equals("Activated"))).
+			forEach((p)-> {
+				p.setState("Finished");
+				biz.changeState(biz.TtoTN(p, tree), "Finished");
+			});
 		}
+		else if(state.equals("New")) {
+			return;
+		}
+		TreeNode node=new TreeBizImpl().TtoTN(task, tree);
+		task.setState(state);
+		biz.changeState(node, state);
+		new TaskDaoImpl().saveTasks(allTask);
+		refresh();
 	}
 
 	@Override
-	public void addRelatedFile(Task task, IFile file) {
+	public void addRelatedFile(Task task, IFile file, ArrayList<Task> allTask) {
 		// TODO 自动生成的方法存根
+		TreeNode parent = new TreeBizImpl().TtoTN(task, DisplayTasksAction.tree);
 		task.addFile(file);
+		new TreeBizImpl().addClasses(parent, file, task);
+		new TaskDaoImpl().saveTasks(allTask);
+		refresh();
 	}
 
+	@Override
+	public ArrayList<Task> getAllTask() {
+		// TODO 自动生成的方法存根
+		return new TaskDaoImpl().loadTasks();
+	}
+
+	@Override
+	public void refresh() {
+		// TODO 自动生成的方法存根
+
+		Display.getDefault().asyncExec(new Runnable(){
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				if(DisplayTasksAction.getTreeViewer() != null) {
+					DisplayTasksAction.getTreeViewer().setInput(DisplayTasksAction.tree.getRoot());
+				}
+			}
+
+		});
+
+	}
+	@Override
+	public void deleteRelatedFile(Task task, IFile file, ArrayList<Task> allTask) {
+		// TODO 自动生成的方法存根
+		TreeBizImpl tbl = new TreeBizImpl();
+		TreeNode treenode = tbl.TtoTN(task, DisplayTasksAction.tree);
+		task.deleteFile(file);
+		tbl.deleteFileNode(treenode, file.getName(), task);
+		new TaskDaoImpl().saveTasks(allTask);
+		refresh();
+	}
 }

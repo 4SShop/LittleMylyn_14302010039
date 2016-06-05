@@ -29,6 +29,10 @@ public class MyContentProvider implements ITreeContentProvider{
 	@Override
 	public Object[] getElements(Object arg0) {
 		// TODO 自动生成的方法存根
+		TreeNode node = (TreeNode) arg0;
+		if(node.getChildren() == null) {
+			return new Object[0];
+		}
 		return ((TreeNode)arg0).getChildren().toArray();
 	}
 

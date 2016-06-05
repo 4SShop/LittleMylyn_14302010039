@@ -1,15 +1,20 @@
 package littlemylyn_14302010039.actions;
 
 
+import java.util.ArrayList;
+
+import littlemylyn_14302010039.biz.TaskBiz;
+import littlemylyn_14302010039.biz.TreeBiz;
+import littlemylyn_14302010039.biz.impl.TaskBizImpl;
+import littlemylyn_14302010039.biz.impl.TreeBizImpl;
+import littlemylyn_14302010039.entity.Task;
+import littlemylyn_14302010039.entity.Tree;
 import littlemylyn_14302010039.entity.TreeNode;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.*;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.jface.action.*;
 import org.eclipse.ui.*;
@@ -43,11 +48,20 @@ public class DisplayTasksAction extends ViewPart {
 	 * The ID of the view as specified by the extension.
 	 */
 	public static final String ID = "littlemylyn_14302010039.DisplayTasksAction";
-
-	private TreeViewer viewer;
-	private littlemylyn_14302010039.entity.TreeNode root;
+	public static ArrayList<Task> allTask;
+	public static Tree tree;
+	private static TreeViewer viewer;
 	private Action doubleClickAction;
+	private ISelectionListener listener = new ISelectionListener() {
 
+		@Override
+		public void selectionChanged(IWorkbenchPart arg0, ISelection arg1) {
+			// TODO 自动生成的方法存根
+			if(arg0 != DisplayTasksAction.this) {
+				viewer.setInput(DisplayTasksAction.tree.getRoot());
+			}
+		}
+	};
 	/*
 	 * The content provider class is responsible for
 	 * providing objects to the view. It can wrap
@@ -57,12 +71,22 @@ public class DisplayTasksAction extends ViewPart {
 	 * it and always show the same content 
 	 * (like Task List, for example).
 	 */
-	 
-	
+	static {
+		TaskBiz taskbiz = new TaskBizImpl();
+		TreeBiz treebiz = new TreeBizImpl();
+		allTask = taskbiz.getAllTask();
+		new ConnectTaskAction();
+		tree = treebiz.newTree(allTask);
+	}
+
 	/**
 	 * The constructor.
 	 */
 	public DisplayTasksAction() {
+		TaskBiz taskbiz = new TaskBizImpl();
+		TreeBiz treebiz = new TreeBizImpl();
+		allTask = taskbiz.getAllTask();
+		tree = treebiz.newTree(allTask);
 	}
 
 	/**
@@ -70,20 +94,12 @@ public class DisplayTasksAction extends ViewPart {
 	 * to create the viewer and initialize it.
 	 */
 	public void createPartControl(Composite parent) {
-		root = new TreeNode();
-		TreeNode c1 = new TreeNode("1", root, null);
-		TreeNode c2 = new TreeNode("2", root, null);
-		root.addChild(c1);
-		root.addChild(c2);
-		TreeNode c3 = new TreeNode("3", c1, null);
-		TreeNode c4 = new TreeNode("4", c1, null);
-		c1.addChild(c3);
-		c1.addChild(c4);
+		TreeNode root = tree.getRoot();
 		viewer = new TreeViewer(parent);
 		viewer.setContentProvider(new MyContentProvider());
 		viewer.setLabelProvider(new MyLableProvider());
 		viewer.setInput(root);
-
+		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(listener);
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "view.viewer");
 		makeActions();
@@ -115,11 +131,11 @@ public class DisplayTasksAction extends ViewPart {
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
-		
+
 	}
-	
+
 	private void fillLocalToolBar(IToolBarManager manager) {
-		
+
 	}
 
 	private void makeActions() {
@@ -127,15 +143,16 @@ public class DisplayTasksAction extends ViewPart {
 			public void run() {
 				ISelection selection = viewer.getSelection();
 				Object obj = ((IStructuredSelection)selection).getFirstElement();
-				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject("1");
-				System.out.println("The full path:" + project.getFullPath());
-				IFile file = project.getFile(new Path("/3"));
-				try {
-					IDE.openEditor(page, file);
-				} catch (PartInitException e) {
-					// TODO 自动生成的 catch 块
-					System.out.println("wrong");
+				TreeNode node = (TreeNode)obj;
+				if(node.getFile() != null) {
+					IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+					IFile file = node.getFile();
+					try {
+						IDE.openEditor(page, file);
+					} catch (PartInitException e) {
+						// TODO 自动生成的 catch 块
+						System.out.println("wrong");
+					}
 				}
 			}
 		};
@@ -154,5 +171,9 @@ public class DisplayTasksAction extends ViewPart {
 	 */
 	public void setFocus() {
 		viewer.getControl().setFocus();
+	}
+
+	public static TreeViewer getTreeViewer() {
+		return viewer;
 	}
 }

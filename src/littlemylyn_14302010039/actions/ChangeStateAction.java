@@ -13,7 +13,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
-public class ChangeTypeAction implements IObjectActionDelegate{
+public  class ChangeStateAction implements IObjectActionDelegate {
 	IStructuredSelection selection;
 	private TaskBiz taskbiz = new TaskBizImpl();
 	private TreeBiz treebiz = new TreeBizImpl();
@@ -22,9 +22,9 @@ public class ChangeTypeAction implements IObjectActionDelegate{
 		// TODO 自动生成的方法存根
 		if(selection != null) {
 			TreeNode node = (TreeNode)selection.getFirstElement();
-			String type = arg0.getText();
+			String state = arg0.getText();
 			Task task = treebiz.getTaskBasedOnNode(DisplayTasksAction.tree, node, DisplayTasksAction.allTask);
-			taskbiz.changeType(task, DisplayTasksAction.allTask, type, DisplayTasksAction.tree);
+			taskbiz.changeState(task, DisplayTasksAction.allTask, state, DisplayTasksAction.tree);
 		}
 	}
 
@@ -39,5 +39,5 @@ public class ChangeTypeAction implements IObjectActionDelegate{
 		// TODO 自动生成的方法存根
 		
 	}
-
 }
+
